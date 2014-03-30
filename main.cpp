@@ -98,9 +98,9 @@ Ship PlaceShip(int size)
 
     nSize = size;
 
-    cout << "x horizontaal (0-7): ";
+    cout << "x horizontaal (0-9): ";
     cin >> x;
-    cout << "y verticaal (0-7): ";
+    cout << "y verticaal (0-9): ";
     cin >> y;
     cout << "Richting ('b'oven, 'o'nder, 'l'inks, 'r'echts): ";
     cin >> direction;

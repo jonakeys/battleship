@@ -14,7 +14,7 @@ public:
     void SetLocation(int x, int y, int nSign);
     
 private:
-    int field[8][8];
+    int field[10][10];
 };
 
 Field::Field()
@@ -29,8 +29,8 @@ Field::~Field()
 
 void Field::Create()
 {
-    for(int i=0; i<8; ++i){
-	for(int j=0; j<8; ++j){
+    for(int i=0; i<10; ++i){
+	for(int j=0; j<10; ++j){
 	    field[i][j] = 0;
 	}
     }
@@ -38,11 +38,11 @@ void Field::Create()
 
 void Field::Draw()
 {
-    cout << "\t    0  1  2  3  4  5  6  7  x" << endl << endl << endl;
+    cout << "\t    0  1  2  3  4  5  6  7  8  9  x" << endl << endl << endl;
 
-    for(int i=0; i<8; ++i){
+    for(int i=0; i<10; ++i){
 	cout << "\t" << i <<  "   ";
-	for(int j=0; j<8; ++j){
+	for(int j=0; j<10; ++j){
 	    if(field[i][j]==0){
 		cout << ".  ";
 	    }
