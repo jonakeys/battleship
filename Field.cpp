@@ -21,10 +21,10 @@ void Field::Create()
 
 void Field::Draw()
 {
-    cout << "\t    0  1  2  3  4  5  6  7  8  9  x" << endl << endl << endl;
+    cout << "\t     0  1  2  3  4  5  6  7  8  9  (X)" << endl << endl;
 
     for(int i=0; i<10; ++i){
-	cout << "\t" << i <<  "   ";
+	cout << "\t " << i <<  "   ";
 	for(int j=0; j<10; ++j){
 	    if(field[i][j]==0){
 		cout << ".  ";
@@ -35,7 +35,7 @@ void Field::Draw()
 	}
 	cout << endl << endl;
     }
-    cout << "\ty" << endl << endl;
+    cout << "\t(Y)" << endl << endl;
 }
 
 void Field::SetLocation(int x, int y, int nSign)
