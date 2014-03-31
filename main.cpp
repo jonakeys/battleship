@@ -8,13 +8,13 @@
 using namespace std;
 
 void CreateShip(Ship& PlayerShip, int size, Field& PutField);
-void DrawScreen(Field& PlayerField);
+void DrawScreen(Field& Player1Field, Field& Player2Field);
 void DrawTitle();
-void DrawField(Field& DrawField);
+void DrawField(Field& DrawField, int row);
 void ShipsToVector(vector <Ship>& PutVector, Ship& Battleship, Ship& Cruiser1, Ship& Cruiser2,
 		   Ship& TorpedoBoat1, Ship& TorpedoBoat2, Ship& TorpedoBoat3, Ship& Submarine1,
 		   Ship& Submarine2, Ship& Submarine3, Ship& Submarine4);
-void PlaceShips(Field& PutField, vector <Ship>& vShips);
+void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int player);
 void DrawShipsRemaining(vector <Ship>& vShips);
 int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField);
 
@@ -41,20 +41,32 @@ int main()
     P1HitField.Create();
     P2HitField.Create();
 
-    DrawScreen(P1Field);
-    PlaceShips(P1Field, vP1Ships);
-    DrawScreen(P2Field);
-    PlaceShips(P2Field, vP2Ships);
+    DrawScreen(P1Field, P2Field);
+    PlaceShips(P1Field, P2Field, vP1Ships, 1);
+    DrawScreen(P1HitField, P2Field);
+    PlaceShips(P1HitField, P2Field, vP2Ships, 2);
+    DrawScreen(P2HitField, P1HitField);
+    cout << endl << endl;
 
     while(PLAY)
     {
 	if(nTurn % 2 == 0) {
-	    DrawScreen(P2HitField);
-	    P1Counter -= Guess(nTurn, P2Field, P2HitField);
+	    int nGuess = Guess(nTurn, P2Field, P2HitField);
+	    P1Counter -= nGuess;
+	    DrawScreen(P2HitField, P1HitField);
+	    if(nGuess==1)
+		cout << "Speler 1 schoot raak :-)\n\n";
+	    else
+		cout << "Speler 1 schoot mis :-(\n\n";
 	}
 	if(nTurn % 2 != 0) {
-	    DrawScreen(P1HitField);
-	    P2Counter -= Guess(nTurn, P1Field, P1HitField);
+	    int nGuess = Guess(nTurn, P1Field, P1HitField);
+	    P2Counter -= nGuess;
+	    DrawScreen(P2HitField, P1HitField);
+	    if(nGuess==1)
+		cout << "Speler 2 schoot raak :-)\n\n";
+	    else
+		cout << "Speler 2 schoot mis :-(\n\n";
 	}
 	if(P1Counter == 0 || P2Counter == 0) {
 	    PLAY = false;
@@ -128,51 +140,60 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField)
     switch(direction) {
     case 'b':
 	for(int i=0; i<size; ++i) {
-	    PutField.SetLocation(y-i,x,size);
+	    PutField.SetLocation(x,y-i,size);
 	}
 	break;
     case 'o':
 	for(int i=0; i<size; ++i) {
-	    PutField.SetLocation((y+i),x,size);
+	    PutField.SetLocation(x,y+i,size);
 	}
 	break;
     case 'l':
 	for(int i=0; i<size; ++i) {
-	    PutField.SetLocation(y,x-i,size);
+	    PutField.SetLocation(x-i,y,size);
 	}
 	break;
     case 'r':
 	for(int i=0; i<size; ++i) {
-	    PutField.SetLocation(y,x+i,size);
+	    PutField.SetLocation(x+i,y,size);
 	}
 	break;
     }
-    
-    DrawScreen(PutField);
 }
 
-void DrawScreen(Field& PlayerField)
+void DrawScreen(Field& Player1Field, Field& Player2Field)
 {
     system("clear");
     DrawTitle();
-    DrawField(PlayerField);
-}
+    cout << "\t              SPELER 1\t\t\t\t\t\t      SPELER 2\n\n"
+	 << "\t    a  b  c  d  e  f  g  h  i  j\t\t\t    a  b  c  d  e  f  g  h  i  j" << endl << endl;
+
+    for(int i=0; i<10; ++i){
+	cout << "\t " << i << "  ";
+	DrawField(Player1Field, i);
+	cout <<  i << "\t\t\t " << i << "  ";
+	DrawField(Player2Field, i);
+	cout << i << endl << endl;
+    }
+    cout << "\t    a  b  c  d  e  f  g  h  i  j\t\t\t    a  b  c  d  e  f  g  h  i  j" << endl << endl;
+}	
+      
 
 void DrawTitle()
 {
     cout << endl
-	 << "  ____________ ______  _____ _               _____ " << endl
-	 << " |___  /  ____|  ____|/ ____| |        /\\   / ____|" << endl
-	 << "    / /| |__  | |__  | (___ | |       /  \\ | |  __ " << endl
-	 << "   / / |  __| |  __|  \\___ \\| |      / /\\ \\| | |_ |" << endl
-	 << "  / /__| |____| |____ ____) | |____ / ____ \\ |__| |" << endl
-	 << " /_____|______|______|_____/|______/_/    \\_\\_____|"
+	 << "\t\t\t  ____________ ______  _____ _               _____ " << endl
+	 << "\t\t\t |___  /  ____|  ____|/ ____| |        /\\   / ____|" << endl
+	 << "\t\t\t    / /| |__  | |__  | (___ | |       /  \\ | |  __ " << endl
+	 << "\t\t\t   / / |  __| |  __|  \\___ \\| |      / /\\ \\| | |_ |" << endl
+	 << "\t\t\t  / /__| |____| |____ ____) | |____ / ____ \\ |__| |" << endl
+	 << "\t\t\t /_____|______|______|_____/|______/_/    \\_\\_____|"
 	 << endl << endl << endl; 
 }
 
-void DrawField(Field& DrawField)
+void DrawField(Field& DrawField, int row)
 {
-    DrawField.Draw();
+    DrawField.Draw(row);
 }
 
 void ShipsToVector(vector <Ship>& PutVector, Ship& Battleship, Ship& Cruiser1, Ship& Cruiser2,
@@ -191,56 +212,75 @@ void ShipsToVector(vector <Ship>& PutVector, Ship& Battleship, Ship& Cruiser1, S
     PutVector.push_back(Submarine4);
 }
 
-void PlaceShips(Field& PutField, vector <Ship>& vShips)
+void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int player)
 {
-    DrawShipsRemaining(vShips);
-    cout << "Plaats slagschip (4 4 4 4)\n";
-    CreateShip(vShips.at(0), 4, PutField);
-    DrawShipsRemaining(vShips);
-    cout << "Plaats kruiser (3 3 3) (1/2)\n";
-    CreateShip(vShips.at(1), 3, PutField);
-    DrawShipsRemaining(vShips);
-    cout << "Plaats kruiser (3 3 3) (2/2)\n";
-    CreateShip(vShips.at(2), 3, PutField);
+    if(player == 1) {
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats slagschip (4 4 4 4)\n";
+	CreateShip(vShips.at(0), 4, PutField);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats kruiser (3 3 3) (1/2)\n";
+	CreateShip(vShips.at(1), 3, PutField);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats kruiser (3 3 3) (2/2)\n";
+	CreateShip(vShips.at(2), 3, PutField);
+	DrawScreen(PutField, Put2Field);
 /*    cout << "Torpedoboten (1/3)\n";
-    CreateShip(P1TorpedoBoat1, 2, P1Field);
-    cout << "Torpedoboten (2/3)\n";
-    CreateShip(P1TorpedoBoat2, 2, P1Field);
-    cout << "Torpedoboten (3/3)\n";
-    CreateShip(P1TorpedoBoat3, 2, P1Field);
-    cout << "Onderzeeërs (1/4)\n";
-    CreateShip(P1Submarine1, 1, P1Field);
-    cout << "Onderzeeërs (2/4)\n";
-    CreateShip(P1Submarine2, 1, P1Field);
-    cout << "Onderzeeërs (3/4)\n";
-    CreateShip(P1Submarine3, 1, P1Field);
-    cout << "Onderzeeërs (4/4)\n";
-    CreateShip(P1Submarine4, 1, P1Field);*/
+      CreateShip(P1TorpedoBoat1, 2, P1Field);
+      cout << "Torpedoboten (2/3)\n";
+      CreateShip(P1TorpedoBoat2, 2, P1Field);
+      cout << "Torpedoboten (3/3)\n";
+      CreateShip(P1TorpedoBoat3, 2, P1Field);
+      cout << "Onderzeeërs (1/4)\n";
+      CreateShip(P1Submarine1, 1, P1Field);
+      cout << "Onderzeeërs (2/4)\n";
+      CreateShip(P1Submarine2, 1, P1Field);
+      cout << "Onderzeeërs (3/4)\n";
+      CreateShip(P1Submarine3, 1, P1Field);
+      cout << "Onderzeeërs (4/4)\n";
+      CreateShip(P1Submarine4, 1, P1Field);*/
+    }
+    else if(player == 2) {
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats slagschip (4 4 4 4)\n";
+	CreateShip(vShips.at(0), 4, Put2Field);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats kruiser (3 3 3) (1/2)\n";
+	CreateShip(vShips.at(1), 3, Put2Field);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats kruiser (3 3 3) (2/2)\n";
+	CreateShip(vShips.at(2), 3, Put2Field);
+	DrawScreen(PutField, Put2Field);
+    }
 }
 
 void DrawShipsRemaining(vector <Ship>& vShips)
 {
-    cout << "\tDe volgende schepen volgen:\n";
+    cout << "\tDe volgende schepen volgen:\n\t";
     if(vShips.at(0).GetSize()==0)
-	cout << "\tSlagschip\t(4 4 4 4)\n";
+	cout << "Slagschip: (4 4 4 4) ";
     if(vShips.at(2).GetSize()==0)
-	cout << "\tKruisers\t(3 3 3)";
+	cout << "Kruisers: (3 3 3) ";
     if(vShips.at(1).GetSize()==0)
-	cout << " (3 3 3)\n";
+	cout << "(3 3 3) ";
     if(vShips.at(5).GetSize()==0)
-	cout << "\tTorpedoboten\t(2 2)";
+	cout << "Torpedoboten: (2 2) ";
     if(vShips.at(3).GetSize()==0)
-	cout << " (2 2)";
+	cout << "(2 2) ";
     if(vShips.at(4).GetSize()==0)
-	cout << " (2 2)\n";
+	cout << "(2 2) ";
     if(vShips.at(9).GetSize()==0)
-	cout << "\tOnderzeeers\t(1)";
+	cout << "Onderzeeers: (1) ";
     if(vShips.at(6).GetSize()==0)
-	cout << " (1)";
+	cout << "(1) ";
     if(vShips.at(7).GetSize()==0)
-	cout << " (1)";
+	cout << "(1) ";
     if(vShips.at(8).GetSize()==0)
-	cout << " (1)\n\n";
+	cout << "(1)\n\n";
 }
 
 int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField)
@@ -292,23 +332,13 @@ int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField)
     default:
 	break;
     }
-
+    
     if(OtherPlayerField.GetContent(x,y) > 0 && OtherPlayerField.GetContent(x,y) < 5) {
 	OtherPlayerHitField.SetLocation(x, y, OtherPlayerField.GetContent(x,y));
-	DrawScreen(OtherPlayerHitField);
-	cout << "Raak :-)";
-	cout << "Press enter to continue . . . ";
-	cin.sync();
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	guess = 1;
-    }
+     }
     else {
 	OtherPlayerHitField.SetLocation(x, y, 6); // 6 is miss
-	DrawScreen(OtherPlayerHitField);
-	cout << "Mis :-(";
-	cout << "Press enter to continue . . . ";
-	cin.sync();
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     
     return guess;

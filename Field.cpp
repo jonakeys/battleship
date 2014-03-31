@@ -19,9 +19,21 @@ void Field::Create()
     }
 }
 
-void Field::Draw()
+void Field::Draw(int row)
 {
-    cout << "\t     a  b  c  d  e  f  g  h  i  j" << endl << endl;
+    for(int i=0; i<10; ++i){
+	if(field[i][row]==0){
+	    cout << ".  ";
+	}
+	else if(field[i][row]==6){
+	    cout << "M  ";
+	}
+	else {
+	    cout << field[i][row] << "  ";
+	}
+    }
+
+/*    cout << "\t     a  b  c  d  e  f  g  h  i  j" << endl << endl;
 
     for(int i=0; i<10; ++i){
 	cout << "\t " << i <<  "   ";
@@ -35,7 +47,7 @@ void Field::Draw()
 	}
 	cout << " " << i << endl << endl;
     }
-    cout << "\t     a  b  c  d  e  f  g  h  i  j" << endl << endl;
+    cout << "\t     a  b  c  d  e  f  g  h  i  j" << endl << endl;*/
 }
 
 void Field::SetLocation(int x, int y, int nSign)

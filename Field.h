@@ -10,7 +10,7 @@ public:
     Field();
     ~Field();
     void Create();
-    void Draw();
+    void Draw(int row);
     void SetLocation(int x, int y, int nSign);
     int GetContent(int x, int y);
     
