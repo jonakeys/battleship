@@ -12,6 +12,7 @@ public:
     void Create();
     void Draw();
     void SetLocation(int x, int y, int nSign);
+    int GetContent(int x, int y);
     
 private:
     int field[10][10];
