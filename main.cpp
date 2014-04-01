@@ -5,12 +5,10 @@
 #include <vector>
 #include "Field.h"
 #include "Ship.h"
+#include "Draw.h"
 using namespace std;
 
 void CreateShip(Ship& PlayerShip, int size, Field& PutField);
-void DrawScreen(Field& Player1Field, Field& Player2Field);
-void DrawTitle();
-void DrawField(Field& DrawField, int row);
 void ShipsToVector(vector <Ship>& PutVector, Ship& Battleship, Ship& Cruiser1, Ship& Cruiser2,
 		   Ship& TorpedoBoat1, Ship& TorpedoBoat2, Ship& TorpedoBoat3, Ship& Submarine1,
 		   Ship& Submarine2, Ship& Submarine3, Ship& Submarine4);
@@ -92,7 +90,7 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField)
     char cX;
     char direction;
 
-    cout << "Kies startcoordinaat (bijvoorbeeld: 'c 6'): ";
+    cout << "\nKies startcoordinaat (bijvoorbeeld: 'c 6'): ";
     cin >> cX  >> y;
     cout << "Richting ('b'oven, 'o'nder, 'l'inks, 'r'echts): ";
     cin >> direction;
@@ -159,41 +157,6 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField)
 	}
 	break;
     }
-}
-
-void DrawScreen(Field& Player1Field, Field& Player2Field)
-{
-    system("clear");
-    DrawTitle();
-    cout << "\t              SPELER 1\t\t\t\t\t\t      SPELER 2\n\n"
-	 << "\t    a  b  c  d  e  f  g  h  i  j\t\t\t    a  b  c  d  e  f  g  h  i  j" << endl << endl;
-
-    for(int i=0; i<10; ++i){
-	cout << "\t " << i << "  ";
-	DrawField(Player1Field, i);
-	cout <<  i << "\t\t\t " << i << "  ";
-	DrawField(Player2Field, i);
-	cout << i << endl << endl;
-    }
-    cout << "\t    a  b  c  d  e  f  g  h  i  j\t\t\t    a  b  c  d  e  f  g  h  i  j" << endl << endl;
-}	
-      
-
-void DrawTitle()
-{
-    cout << endl
-	 << "\t\t\t      ____________ ______  _____ _               _____ " << endl
-	 << "\t\t\t     |___  /  ____|  ____|/ ____| |        /\\   / ____|" << endl
-	 << "\t\t\t        / /| |__  | |__  | (___ | |       /  \\ | |  __ " << endl
-	 << "\t\t\t       / / |  __| |  __|  \\___ \\| |      / /\\ \\| | |_ |" << endl
-	 << "\t\t\t      / /__| |____| |____ ____) | |____ / ____ \\ |__| |" << endl
-	 << "\t\t\t     /_____|______|______|_____/|______/_/    \\_\\_____|"
-	 << endl << endl << endl; 
-}
-
-void DrawField(Field& DrawField, int row)
-{
-    DrawField.Draw(row);
 }
 
 void ShipsToVector(vector <Ship>& PutVector, Ship& Battleship, Ship& Cruiser1, Ship& Cruiser2,
