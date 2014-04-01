@@ -9,10 +9,10 @@ Battleship game
 
 -- GOAL --
 Two players battle to rule the open sea. The goal is to destroy all of the enemy's ships.
-The first one who does so, wins the game. A ship is destroyed when all coordinates of it are revealed.
+The first one who does so, wins the game. A ship is destroyed when all it's coordinates are revealed.
 
 -- START --
-The game starts with each player getting to place their ships onto the playing field.
+The game starts with each player placing their ships onto the playing field.
 Each player has 10 ships:
 1 Battleship  	  (4 4 4 4)
 2 Cruisers    	  (3 3 3) (3 3 3)
@@ -20,5 +20,5 @@ Each player has 10 ships:
 4 Submarines	  (1) (1) (1) (1)
 
 -- BATTLE --
-In turn, each players gets to fire a shot. When it hits, the number of the ship is revealed.
-When it misses, a 'M' is displayed on the field.
+In turn, each player fires a shot. When it hits, the number of the ship is revealed.
+When it misses, an 'M' is displayed on the field.
