@@ -15,6 +15,10 @@ void ShipsToVector(vector <Ship>& PutVector, Ship& Battleship, Ship& Cruiser1, S
 void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int player);
 void DrawShipsRemaining(vector <Ship>& vShips);
 int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField);
+int LocUpFree(int x, int y, int size, Field& TestField);
+int LocDownFree(int x, int y, int size, Field& TestField);
+int LocLeftFree(int x, int y, int size, Field& TestField);
+int LocRightFree(int x, int y, int size, Field& TestField);
 
 int main()
 {
@@ -89,45 +93,85 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField)
     int x, y;
     char cX;
     char direction;
+    int nUp = 0, nDown = 0, nLeft = 0, nRight = 0;
+    bool DirOk = false;
+    bool DONE = false;
+    
+    while(!DONE) {
+	cout << "\nKies startcoordinaat (bijvoorbeeld: 'c 6'): ";
+	cin >> cX  >> y;
+	if(size > 1) {
+	    cout << "Richting ('b'oven, 'o'nder, 'l'inks, 'r'echts): ";
+	    cin >> direction;
+	}
+	else {
+	    direction = 'r';
+	}
+	
+	switch(cX) {
+	case 'a':
+	    x = 0;
+	    break;
+	case 'b':
+	    x = 1;
+	    break;
+	case 'c':
+	    x = 2;
+	    break;
+	case 'd':
+	    x = 3;
+	    break;
+	case 'e':
+	    x = 4;
+	    break;
+	case 'f':
+	    x = 5;
+	    break;
+	case 'g':
+	    x = 6;
+	    break;
+	case 'h':
+	    x = 7;
+	    break;
+	case 'i':
+	    x = 8;
+	    break;
+	case 'j':
+	    x = 9;
+	    break;
+	default:
+	    break;
+	}
 
-    cout << "\nKies startcoordinaat (bijvoorbeeld: 'c 6'): ";
-    cin >> cX  >> y;
-    cout << "Richting ('b'oven, 'o'nder, 'l'inks, 'r'echts): ";
-    cin >> direction;
+	nUp = LocUpFree(x,y,size,PutField);
+	nDown = LocDownFree(x,y,size,PutField);
+	nLeft = LocLeftFree(x,y,size,PutField);
+	nRight = LocRightFree(x,y,size,PutField);
 
-    switch(cX) {
-    case 'a':
-	x = 0;
-	break;
-    case 'b':
-	x = 1;
-	break;
-    case 'c':
-	x = 2;
-	break;
-    case 'd':
-	x = 3;
-	break;
-    case 'e':
-	x = 4;
-	break;
-    case 'f':
-	x = 5;
-	break;
-    case 'g':
-	x = 6;
-	break;
-    case 'h':
-	x = 7;
-	break;
-    case 'i':
-	x = 8;
-	break;
-    case 'j':
-	x = 9;
-	break;
-    default:
-	break;
+	if((nUp == 0) && (nUp == 0) && (nLeft == 0) && (nRight == 0)) {
+	    cout << "Deze locatie is niet beschikbaar. Probeer het opnieuw.\n";
+	}
+	
+	if(direction == 'b' && nUp==1) {
+	    DirOk = true;
+	}
+	if(direction == 'o' && nDown==1) {
+	    DirOk = true;
+	}
+	if(direction == 'l' && nLeft==1) {
+	    DirOk = true;
+	}
+	if(direction == 'r' && nRight==1) {
+	    DirOk = true;
+	}
+
+	if(DirOk == false) {
+	    cout << "Deze richting is niet mogelijk. Probeer het opnieuw.\n";
+	}
+	
+	if((nUp==1||nDown==1||nLeft==1||nRight==1) && (DirOk==true)) {
+	    DONE = true;
+	}
     }
     
     PlayerShip.SetX(x);
@@ -190,20 +234,34 @@ void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int pl
 	cout << "Speler 1, plaats kruiser (3 3 3) (2/2)\n";
 	CreateShip(vShips.at(2), 3, PutField);
 	DrawScreen(PutField, Put2Field);
-/*    cout << "Torpedoboten (1/3)\n";
-      CreateShip(P1TorpedoBoat1, 2, P1Field);
-      cout << "Torpedoboten (2/3)\n";
-      CreateShip(P1TorpedoBoat2, 2, P1Field);
-      cout << "Torpedoboten (3/3)\n";
-      CreateShip(P1TorpedoBoat3, 2, P1Field);
-      cout << "Onderzeeërs (1/4)\n";
-      CreateShip(P1Submarine1, 1, P1Field);
-      cout << "Onderzeeërs (2/4)\n";
-      CreateShip(P1Submarine2, 1, P1Field);
-      cout << "Onderzeeërs (3/4)\n";
-      CreateShip(P1Submarine3, 1, P1Field);
-      cout << "Onderzeeërs (4/4)\n";
-      CreateShip(P1Submarine4, 1, P1Field);*/
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats torpedoboot (2 2) (1/3)\n";
+	CreateShip(vShips.at(3), 2, PutField);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats torpedoboot (2 2) (2/3)\n";
+	CreateShip(vShips.at(4), 2, PutField);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats torpedoboot (2 2) (3/3)\n";
+	CreateShip(vShips.at(5), 2, PutField);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats onderzeeer (1) (1/4)\n";
+	CreateShip(vShips.at(6), 1, PutField);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats onderzeeer (1) (2/4)\n";
+	CreateShip(vShips.at(7), 1, PutField);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats onderzeeer (1) (3/4)\n";
+	CreateShip(vShips.at(8), 1, PutField);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 1, plaats onderzeeer (1) (4/4)\n";
+	CreateShip(vShips.at(9), 1, PutField);
+	DrawScreen(PutField, Put2Field);
     }
     else if(player == 2) {
 	DrawShipsRemaining(vShips);
@@ -217,6 +275,34 @@ void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int pl
 	DrawShipsRemaining(vShips);
 	cout << "Speler 2, plaats kruiser (3 3 3) (2/2)\n";
 	CreateShip(vShips.at(2), 3, Put2Field);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats torpedoboot (2 2) (1/3)\n";
+	CreateShip(vShips.at(3), 2, Put2Field);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats torpedoboot (2 2) (2/3)\n";
+	CreateShip(vShips.at(4), 2, Put2Field);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats torpedoboot (2 2) (3/3)\n";
+	CreateShip(vShips.at(5), 2, Put2Field);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats onderzeeer (1) (1/4)\n";
+	CreateShip(vShips.at(6), 1, Put2Field);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats onderzeeer (1) (2/4)\n";
+	CreateShip(vShips.at(7), 1, Put2Field);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats onderzeeer (1) (3/4)\n";
+	CreateShip(vShips.at(8), 1, Put2Field);
+	DrawScreen(PutField, Put2Field);
+	DrawShipsRemaining(vShips);
+	cout << "Speler 2, plaats onderzeeer (1) (4/4)\n";
+	CreateShip(vShips.at(9), 1, Put2Field);
 	DrawScreen(PutField, Put2Field);
     }
 }
@@ -305,4 +391,132 @@ int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField)
     }
     
     return guess;
+}
+
+int LocUpFree(int x, int y, int size, Field& TestField)
+{
+    int free = 0;
+
+    switch(size) {
+    case 4:
+	if((TestField.GetContent(x,y)==0) && (TestField.GetContent(x,y-1)==0) && 
+	   (TestField.GetContent(x,y-2)==0) && (TestField.GetContent(x,y-3)==0)) {
+	    free = 1;
+	}
+	break;
+    case 3:
+	if((TestField.GetContent(x,y)==0) && (TestField.GetContent(x,y-1)==0) && 
+	   (TestField.GetContent(x,y-2)==0)) {
+	    free = 1;
+	}
+	break;
+    case 2:
+	if((TestField.GetContent(x,y)==0) && (TestField.GetContent(x,y-1)==0)) {
+	    free = 1;
+	}
+	break;
+    case 1:
+	if((TestField.GetContent(x,y)==0)) {
+	    free = 1;
+	}
+	break;
+    }
+
+    return free;
+}
+
+int LocDownFree(int x, int y, int size, Field& TestField)
+{
+    int free = 0;
+
+    switch(size) {
+    case 4:
+	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x,y+1)==0) && 
+	   (TestField.GetContent(x,y+2)==0) && (TestField.GetContent(x,y+3)==0)) {
+	    free = 1;
+	}
+	break;
+    case 3:
+	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x,y+1)==0) && 
+	   (TestField.GetContent(x,y+2)==0)) {
+	    free = 1;
+	}
+	break;
+    case 2:
+	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x,y+1)==0)) {
+	    free = 1;
+	}
+	break;
+    case 1:
+	if((TestField.GetContent(x,y) == 0)) {
+	    free = 1;
+	}
+	break;
+    }
+
+    return free;
+}
+
+int LocLeftFree(int x, int y, int size, Field& TestField)
+{
+    int free = 0;
+
+    switch(size) {
+    case 4:
+	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x-1,y)==0) && 
+	   (TestField.GetContent(x-2,y)==0) && (TestField.GetContent(x-3,y)==0)) {
+	    free = 1;
+	}
+	break;
+    case 3:
+	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x-1,y)==0) && 
+	   (TestField.GetContent(x-2,y)==0)) {
+	    free = 1;
+	}
+	break;
+    case 2:
+	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x-1,y)==0)) {
+	    free = 1;
+	}
+	break;
+    case 1:
+	if((TestField.GetContent(x,y) == 0)) {
+	    free = 1;
+	}
+	break;
+    }
+
+    return free;
+}
+
+int LocRightFree(int x, int y, int size, Field& TestField)
+{
+    int free = 0;
+
+    switch(size) {
+    case 4:
+	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x+1,y)==0) && 
+	   (TestField.GetContent(x+2,y)==0) && (TestField.GetContent(x+3,y)==0)) {
+	    free = 1;
+	}
+	break;
+    case 3:
+	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x+1,y)==0) && 
+	   (TestField.GetContent(x+2,y)==0)) {
+	    free = 1;
+	}
+	break;
+    case 2:
+	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x+1,y)==0)) {
+	    free = 1;
+	}
+	break;
+    case 1:
+	if((TestField.GetContent(x,y) == 0)) {
+	    free = 1;
+	}
+	break;
+    }
+
+    return free;
 }
