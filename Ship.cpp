@@ -165,22 +165,54 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField)
     case 'b':
 	for(int i=0; i<size; ++i) {
 	    PutField.SetLocation(x,y-i,size);
+	    if((x-1)>=0) PutField.SetLocation(x-1,y-i,7);
+	    if((x+1)<10) PutField.SetLocation(x+1,y-i,7);
 	}
+	if((y+1)<10) PutField.SetLocation(x,y+1,7);
+	if(((y+1)<10) && ((x-1)>=0)) PutField.SetLocation(x-1,y+1,7);
+	if(((y+1)<10) && ((x+1)<10)) PutField.SetLocation(x+1,y+1,7);
+	if((y-size)>=0) PutField.SetLocation(x,y-size,7);
+	if(((x-1)>=0) && ((y-size)>=0)) PutField.SetLocation(x-1,y-size,7);
+	if(((x+1)<10) && ((y-size)>=0)) PutField.SetLocation(x+1,y-size,7);
 	break;
     case 'o':
 	for(int i=0; i<size; ++i) {
 	    PutField.SetLocation(x,y+i,size);
+	    if((x-1)>=0) PutField.SetLocation(x-1,y+i,7);
+	    if((x+1)<10) PutField.SetLocation(x+1,y+i,7);
 	}
+	if((y-1)>=0) PutField.SetLocation(x,y-1,7);
+	if(((y-1)>=0) && ((x-1)>=0)) PutField.SetLocation(x-1,y-1,7);
+	if(((y-1)>=0) && ((x+1)<10)) PutField.SetLocation(x+1,y-1,7);
+	if((y+size)<10) PutField.SetLocation(x,y+size,7);
+	if(((y+size)>=0) && ((x-1)>=0)) PutField.SetLocation(x-1,y+size,7);
+	if(((y+size)>=0) && ((x+1)<10)) PutField.SetLocation(x+1,y+size,7);
 	break;
     case 'l':
 	for(int i=0; i<size; ++i) {
 	    PutField.SetLocation(x-i,y,size);
+	    if((y-1)>=0) PutField.SetLocation(x-i,y-1,7);
+	    if((y+1)<10) PutField.SetLocation(x-i,y+1,7);
 	}
+	if((x+1)<10) PutField.SetLocation(x+1,y,7);
+	if(((x+1)<10) && ((y-1)>=0)) PutField.SetLocation(x+1,y-1,7);
+	if(((x+1)<10) && ((y+1)<10)) PutField.SetLocation(x+1,y+1,7);
+	if((x-size)>=0) PutField.SetLocation(x-size,y,7);
+	if(((x-size)>=0) && ((y-1)>=0)) PutField.SetLocation(x-size,y-1,7);
+	if(((x-size)>=0) && ((y+1)<10)) PutField.SetLocation(x-size,y+1,7);
 	break;
     case 'r':
 	for(int i=0; i<size; ++i) {
 	    PutField.SetLocation(x+i,y,size);
+	    if((y-1)>=0) PutField.SetLocation(x+i,y-1,7);
+	    if((y+1)<10) PutField.SetLocation(x+i,y+1,7);
 	}
+	if((x-1)>=0) PutField.SetLocation(x-1,y,7);
+	if(((x-1)>=0) && ((y-1)>=0)) PutField.SetLocation(x-1,y-1,7);
+	if(((x-1)>=0) && ((y+1)<10)) PutField.SetLocation(x-1,y+1,7);
+	if((x+size)<10) PutField.SetLocation(x+size,y,7);
+	if(((x+size)<10) && ((y-1)>=0)) PutField.SetLocation(x+size,y-1,7);
+	if(((x+size)<10) && ((y+1)<10)) PutField.SetLocation(x+size,y+1,7);
 	break;
     }
 }

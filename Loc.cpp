@@ -44,24 +44,24 @@ int LocDownFree(int x, int y, int size, Field& TestField)
 
     switch(size) {
     case 4:
-	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x,y+1)==0) && 
+	if((TestField.GetContent(x,y)==0) && (TestField.GetContent(x,y+1)==0) && 
 	   (TestField.GetContent(x,y+2)==0) && (TestField.GetContent(x,y+3)==0)) {
 	    free = 1;
 	}
 	break;
     case 3:
-	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x,y+1)==0) && 
+	if((TestField.GetContent(x,y)==0) && (TestField.GetContent(x,y+1)==0) && 
 	   (TestField.GetContent(x,y+2)==0)) {
 	    free = 1;
 	}
 	break;
     case 2:
-	if((TestField.GetContent(x,y) == 0) && (TestField.GetContent(x,y+1)==0)) {
+	if((TestField.GetContent(x,y)==0) && (TestField.GetContent(x,y+1)==0)) {
 	    free = 1;
 	}
 	break;
     case 1:
-	if((TestField.GetContent(x,y) == 0)) {
+	if((TestField.GetContent(x,y)==0)) {
 	    free = 1;
 	}
 	break;

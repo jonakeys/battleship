@@ -30,6 +30,9 @@ void Field::Draw(int row)
 	else if(field[i][row]==6){
 	    cout << "M  ";
 	}
+	else if(field[i][row]==7){
+	    cout << "   ";
+	}
 	else {
 	    cout << field[i][row] << "  ";
 	}
@@ -37,7 +40,7 @@ void Field::Draw(int row)
 }
 
 // Set a location
-// @param nSign Item to put on the place (0=empty, 1-4=ship, 5=miss)
+// @param nSign Item to put on the place (0=empty, 1-4=ship, 6=miss, 7=besides ship)
 void Field::SetLocation(int x, int y, int nSign)
 {
     field[x][y] = nSign;

@@ -13,6 +13,8 @@ The first one who does so, wins the game. A ship is destroyed when all it's coor
 
 -- START --
 The game starts with each player placing their ships onto the playing field.
+Ships can only be placed horizontally or vertically and aren't allowed to be adjacent to each other.
+
 Each player has 10 ships:
 1 Battleship  	  (4 4 4 4)
 2 Cruisers    	  (3 3 3) (3 3 3)

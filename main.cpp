@@ -6,6 +6,7 @@
 #include "Field.h"
 #include "Ship.h"
 #include "Draw.h"
+#include "AI.h"
 using namespace std;
 
 void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int player, string playerName);
