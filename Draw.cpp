@@ -9,10 +9,8 @@ void DrawScreen(Field& Player1Field, Field& Player2Field)
 {
     system("clear");
     DrawTitle();
-    cout << "\t_______________________________________\t\t       _______________________________________\n"
-	 << "\t|                                      |\t      |                                      |\n"
-	 << "\t|               SPELER 1\t       |\t      |\t              SPELER 2\t\t     |"
-	 << endl 
+    cout << "\t Speler 1\t\t\t\t\t       Speler 2\n"
+	 << "\t_______________________________________\t\t       _______________________________________\n"
 	 << "\t|\t\t\t\t       |\t      |\t\t\t\t\t     |" << endl
 	 << "\t|     a  b  c  d  e  f  g  h  i  j     |\t      |     a  b  c  d  e  f  g  h  i  j     |" 
 	 << endl 

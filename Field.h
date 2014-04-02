@@ -2,6 +2,7 @@
 #define FIELD_H
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class Field
