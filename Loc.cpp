@@ -2,6 +2,8 @@
 #include "Field.h"
 using namespace std;
 
+// Test if location and up are free
+// @return Returns 1 if location is free
 int LocUpFree(int x, int y, int size, Field& TestField)
 {
     int free = 0;
@@ -34,6 +36,8 @@ int LocUpFree(int x, int y, int size, Field& TestField)
     return free;
 }
 
+// Test if location and down are free
+// @return Returns 1 if location is free
 int LocDownFree(int x, int y, int size, Field& TestField)
 {
     int free = 0;
@@ -66,6 +70,8 @@ int LocDownFree(int x, int y, int size, Field& TestField)
     return free;
 }
 
+// Test if location and left are free
+// @return Returns 1 if location is free
 int LocLeftFree(int x, int y, int size, Field& TestField)
 {
     int free = 0;
@@ -98,6 +104,8 @@ int LocLeftFree(int x, int y, int size, Field& TestField)
     return free;
 }
 
+// Test if location and right are free
+// @return Returns 1 if location is free
 int LocRightFree(int x, int y, int size, Field& TestField)
 {
     int free = 0;

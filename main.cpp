@@ -14,10 +14,10 @@ int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string 
 
 int main()
 {
-    Field P1Field, P2Field;
-    Field P1HitField, P2HitField;
+    Field P1Field, P2Field; // Player fields
+    Field P1HitField, P2HitField; // Fields to keep track of hits or misses
     bool PLAY = true;
-    int nTurn = 0, P1Counter = 20, P2Counter = 20;
+    int nTurn = 0, P1Counter = 20, P2Counter = 20; // nTurn counts turns, Counters deduct points from 20; if 0 all ships are destroyed
     string player1, player2;
     
     Ship P1Battleship, P1Cruiser1, P1Cruiser2, P1TorpedoBoat1, P1TorpedoBoat2,
@@ -31,16 +31,20 @@ int main()
     ShipsToVector(vP2Ships, P2Battleship, P2Cruiser1, P2Cruiser2, P2TorpedoBoat1, P2TorpedoBoat2,
 		  P2TorpedoBoat3, P2Submarine1, P2Submarine2, P2Submarine3, P2Submarine4);
     
+    // Let players enter their name
     cout << "Speler 1, typ je naam: ";
     cin >> player1;
     cout << "Speler 2, typ je naam: ";
     cin >> player2;
 
+    // Create the fields for both players and their accompanying hitfields
     P1Field.Create();
     P2Field.Create();
     P1HitField.Create();
     P2HitField.Create();
 
+    // Print the fields to the screen
+    // Players setup their ships on the field
     DrawScreen(P1Field, P2Field);
     PlaceShips(P1Field, P2Field, vP1Ships, 1, player1);
     DrawScreen(P1HitField, P2Field);
@@ -50,8 +54,9 @@ int main()
 
     while(PLAY)
     {
+	// Player 1 turn
 	if(nTurn % 2 == 0) {
-	    int nGuess = Guess(nTurn, P2Field, P2HitField, player1);
+	    int nGuess = Guess(nTurn, P2Field, P2HitField, player1); // Guess returns 1 if hit
 	    P1Counter -= nGuess;
 	    DrawScreen(P2HitField, P1HitField);
 	    if(nGuess==1)
@@ -59,8 +64,9 @@ int main()
 	    else
 		cout << player1 << " schoot mis :-(\n\n";
 	}
+	// Player 2 turn
 	if(nTurn % 2 != 0) {
-	    int nGuess = Guess(nTurn, P1Field, P1HitField, player2);
+	    int nGuess = Guess(nTurn, P1Field, P1HitField, player2); // Guess returns 1 if hit
 	    P2Counter -= nGuess;
 	    DrawScreen(P2HitField, P1HitField);
 	    if(nGuess==1)
@@ -68,7 +74,7 @@ int main()
 	    else
 		cout << player2 << " schoot mis :-(\n\n";
 	}
-	if(P1Counter == 0 || P2Counter == 0) {
+	if(P1Counter == 0 || P2Counter == 0) { // When one counter reaches zero, the game is won
 	    PLAY = false;
 	}
 	++nTurn;
@@ -87,6 +93,7 @@ int main()
     return 0;
 }
 
+// Player puts their ships on the field
 void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int player, string playerName)
 {
     if(player == 1) {
@@ -175,6 +182,7 @@ void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int pl
     }
 }
 
+// Draws a line with the remaining ships to place on the field
 void DrawShipsRemaining(vector <Ship>& vShips)
 {
     cout << "\tDe volgende schepen volgen:\n\t";
@@ -200,6 +208,8 @@ void DrawShipsRemaining(vector <Ship>& vShips)
 	cout << "(1)\n\n";
 }
 
+// Guess a location
+// @return Returns 1 if it's a hit, returns 0 if it's a miss
 int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string playerName)
 {
     int x, y;

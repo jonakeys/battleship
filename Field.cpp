@@ -10,6 +10,7 @@ Field::~Field()
 
 }
 
+// Create an empty field (filled with 0's)
 void Field::Create()
 {
     for(int i=0; i<10; ++i){
@@ -19,6 +20,7 @@ void Field::Create()
     }
 }
 
+// Draw the contents of the field
 void Field::Draw(int row)
 {
     for(int i=0; i<10; ++i){
@@ -34,11 +36,15 @@ void Field::Draw(int row)
     }
 }
 
+// Set a location
+// @param nSign Item to put on the place (0=empty, 1-4=ship, 5=miss)
 void Field::SetLocation(int x, int y, int nSign)
 {
     field[x][y] = nSign;
 }
 
+// Get the content of a location
+// @return Returns the int of the location
 int Field::GetContent(int x, int y)
 {
     return field[x][y];

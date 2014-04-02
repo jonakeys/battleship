@@ -5,6 +5,7 @@
 #include <iostream>
 using namespace std;
 
+// Draw the screen
 void DrawScreen(Field& Player1Field, Field& Player2Field)
 {
     system("clear");
@@ -28,7 +29,7 @@ void DrawScreen(Field& Player1Field, Field& Player2Field)
 	 << "\t|______________________________________|\t      |______________________________________|\n\n" << endl;
 }	
       
-
+// Draw the title
 void DrawTitle()
 {
     cout << endl
@@ -41,6 +42,7 @@ void DrawTitle()
 	 << endl << endl << endl; 
 }
 
+// Draw the field, one row at a time
 void DrawField(Field& DrawField, int row)
 {
     DrawField.Draw(row);

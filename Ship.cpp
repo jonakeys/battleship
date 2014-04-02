@@ -22,11 +22,13 @@ void Ship::PrintChar()
 cout << "Teken van schip is: " << cShip << endl;
 }
 
+// Set the size of the ship
 void Ship::SetSize(int size)
 {
     nSize = size;
 }
 
+// Get the size of the ship
 int Ship::GetSize()
 {
     return nSize;
@@ -57,11 +59,16 @@ void Ship::SetDirection(char direction)
     cDirection = direction;
 }
 
+// Get direction
+// @return Returns location in char (b=up, o=down, l=left, r=right)
 char Ship::GetDirection()
 {
     return cDirection;
 }
 
+// Create a ship
+// @param PlayerShip Choose ship to place
+// @param PutField Field to place the ship
 void CreateShip(Ship& PlayerShip, int size, Field& PutField)
 {
     int x, y;
@@ -82,6 +89,7 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField)
 	    direction = 'r';
 	}
 	
+	// Convert the char-input of x coordinate to int
 	switch(cX) {
 	case 'a':
 	    x = 0;
@@ -177,6 +185,7 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField)
     }
 }
 
+// Put ships in a vector
 void ShipsToVector(vector <Ship>& PutVector, Ship& Battleship, Ship& Cruiser1, Ship& Cruiser2,
 		   Ship& TorpedoBoat1, Ship& TorpedoBoat2, Ship& TorpedoBoat3, Ship& Submarine1,
 		   Ship& Submarine2, Ship& Submarine3, Ship& Submarine4)
