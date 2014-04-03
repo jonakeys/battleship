@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <stdlib.h>
@@ -17,9 +18,11 @@ int main()
 {
     Field P1Field, P2Field; // Player fields
     Field P1HitField, P2HitField; // Fields to keep track of hits or misses
-    bool PLAY = true;
+    bool PLAY = true, GO = true, DONE = false;
     int nTurn = 0, P1Counter = 20, P2Counter = 20; // nTurn counts turns, Counters deduct points from 20; if 0 all ships are destroyed
     string player1, player2;
+    int nChoice;
+    ofstream statsFile;
     
     Ship P1Battleship, P1Cruiser1, P1Cruiser2, P1TorpedoBoat1, P1TorpedoBoat2,
 	P1TorpedoBoat3, P1Submarine1, P1Submarine2, P1Submarine3, P1Submarine4;
@@ -31,65 +34,114 @@ int main()
     vector <Ship> vP2Ships;
     ShipsToVector(vP2Ships, P2Battleship, P2Cruiser1, P2Cruiser2, P2TorpedoBoat1, P2TorpedoBoat2,
 		  P2TorpedoBoat3, P2Submarine1, P2Submarine2, P2Submarine3, P2Submarine4);
-    
-    // Let players enter their name
-    cout << "Speler 1, typ je naam: ";
-    cin >> player1;
-    cout << "Speler 2, typ je naam: ";
-    cin >> player2;
 
-    // Create the fields for both players and their accompanying hitfields
-    P1Field.Create();
-    P2Field.Create();
-    P1HitField.Create();
-    P2HitField.Create();
-
-    // Print the fields to the screen
-    // Players setup their ships on the field
-    DrawScreen(P1Field, P2Field);
-    PlaceShips(P1Field, P2Field, vP1Ships, 1, player1);
-    DrawScreen(P1HitField, P2Field);
-    PlaceShips(P1HitField, P2Field, vP2Ships, 2, player2);
-    DrawScreen(P2HitField, P1HitField);
-    cout << endl << endl;
-
-    while(PLAY)
+    while(GO)
     {
-	// Player 1 turn
-	if(nTurn % 2 == 0) {
-	    int nGuess = Guess(nTurn, P2Field, P2HitField, player1); // Guess returns 1 if hit
-	    P1Counter -= nGuess;
-	    DrawScreen(P2HitField, P1HitField);
-	    if(nGuess==1)
-		cout << player1 << " schoot raak :-)\n\n";
-	    else
-		cout << player1 << " schoot mis :-(\n\n";
-	}
-	// Player 2 turn
-	if(nTurn % 2 != 0) {
-	    int nGuess = Guess(nTurn, P1Field, P1HitField, player2); // Guess returns 1 if hit
-	    P2Counter -= nGuess;
-	    DrawScreen(P2HitField, P1HitField);
-	    if(nGuess==1)
-		cout << player2 << " schoot raak :-)\n\n";
-	    else
-		cout << player2 << " schoot mis :-(\n\n";
-	}
-	if(P1Counter == 0 || P2Counter == 0) { // When one counter reaches zero, the game is won
-	    PLAY = false;
-	}
-	++nTurn;
-    }
+	DrawTitle();
+	cout << "ZEESLAG - HOOFDMENU\n\n"
+	     << "Zeeslag is een spel waarbij je strijdt om de macht op de zee. Het is de bedoeling om de schepen \n"
+	     << "van je tegenstander te vinden en tot zinken te brengen.\n"
+	     << "Het spel begint met het plaatsen van de schepen op het speelveld. Daarna mag je om de beurt een \n"
+	     << "schot afvuren. Als het raak is, zie je het nummer van het schip. Als het mis is zie je een 'M'.\n\n"
+	     << "Bij het plaatsen mogen de schepen alleen horizontaal en verticaal geplaatst worden. Ook mogen ze \n"
+	     << "elkaar niet raken.\n\n"
+	     << "Veel plezier gewenst!\n- Jonathan\n\n"
+	     << "1) Speler tegen speler\n"
+	     << "2) Speler tegen AI (nog niet beschikbaar)\n"
+	     << "3) Stoppen\n";
+	    while(!DONE) {
+		cout << "Maak je keuze (1-3): ";
+		cin >> nChoice;
+		if(0 < nChoice && nChoice < 4)
+		    DONE = true;
+		else
+		    cout << "Ongeldige invoer. Probeer het opnieuw (1-3):\n";
+	    }
     
-    if(P1Counter == 0) {
-	cout << player1 << " heeft gewonnen!\n";
-    }
-    else if(P2Counter == 0) {
-	cout << player2 << " heeft gewonnen!\n";
+	if(nChoice == 1) {
+	    // Let players enter their name
+	    cout << "Speler 1, typ je naam: ";
+	    cin >> player1;
+	    cout << "Speler 2, typ je naam: ";
+	    cin >> player2;
+
+	    // Create the fields for both players and their accompanying hitfields
+	    P1Field.Create();
+	    P2Field.Create();
+	    P1HitField.Create();
+	    P2HitField.Create();
+
+	    // Print the fields to the screen
+	    // Players setup their ships on the field
+	    DrawScreen(P1Field, P2Field);
+	    PlaceShips(P1Field, P2Field, vP1Ships, 1, player1);
+	    DrawScreen(P1HitField, P2Field);
+	    PlaceShips(P1HitField, P2Field, vP2Ships, 2, player2);
+	    DrawScreen(P2HitField, P1HitField);
+	    cout << endl << endl;
+
+	    while(PLAY)
+	    {
+		// Player 1 turn
+		if(nTurn % 2 == 0) {
+		    int nGuess = Guess(nTurn, P2Field, P2HitField, player1); // Guess returns 1 if hit
+		    P1Counter -= nGuess;
+		    DrawScreen(P2HitField, P1HitField);
+		    if(nGuess==1)
+			cout << player1 << " schoot raak :-)\n\n";
+		    else
+			cout << player1 << " schoot mis :-(\n\n";
+		}
+		// Player 2 turn
+		if(nTurn % 2 != 0) {
+		    int nGuess = Guess(nTurn, P1Field, P1HitField, player2); // Guess returns 1 if hit
+		    P2Counter -= nGuess;
+		    DrawScreen(P2HitField, P1HitField);
+		    if(nGuess==1)
+			cout << player2 << " schoot raak :-)\n\n";
+		    else
+			cout << player2 << " schoot mis :-(\n\n";
+		}
+		if(P1Counter == 0 || P2Counter == 0) { // When one counter reaches zero, the game is won
+		    PLAY = false;
+		}
+		++nTurn;
+	    }
+    
+	    if(P1Counter == 0) {
+		cout << player1 << " heeft gewonnen!\n";
+		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
+		statsFile << player1 << " heeft gewonnen.\n"
+			  << "De tegenstander was: " << player2 << ".\n"
+			  << player1 << " heeft er " << nTurn << " beurten over gedaan.\n";
+		statsFile.close();
+	    }
+	    else if(P2Counter == 0) {
+		cout << player2 << " heeft gewonnen!\n";
+		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
+		statsFile << player2 << " heeft gewonnen.\n"
+			  << "De tegenstander was: " << player1 << ".\n"
+			  << player2 << " heeft er " << nTurn << " beurten over gedaan.\n";
+		statsFile.close();
+
+	    }
+	    cout << "Je hebt er " << nTurn << " beurten over gedaan.\n";
+	    cin.ignore();
+	}
+
+	else if(nChoice == 2) {
+	    cout << "Sorry, deze functie is nog niet geimplementeerd.\n";
+	}
+	
+	else if(nChoice == 3) {
+	    statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
+	    statsFile << "Zeeslag is afgesloten.\n\n";
+	    statsFile.close();
+	    GO = false;
+	}
     }
 
-    cout << "Je hebt er " << nTurn << " beurten over gedaan.\n" 
-	 << "Bedankt voor het spelen, tot ziens!" << endl;
+    cout << "Bedankt voor het spelen, tot ziens!" << endl;
 
     return 0;
 }
