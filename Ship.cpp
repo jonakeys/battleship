@@ -1,4 +1,5 @@
 #include "Ship.h"
+#include <iostream>
 
 Ship::Ship()
 {
@@ -77,16 +78,47 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField)
     int nUp = 0, nDown = 0, nLeft = 0, nRight = 0;
     bool DirOk = false;
     bool DONE = false;
+    bool VALIDINPUT = true;
+    bool VALIDINPUTDIR = true;
     
     while(!DONE) {
-	cout << "\nKies startcoordinaat (bijvoorbeeld: 'c 6'): ";
-	cin >> cX  >> y;
-	if(size > 1) {
-	    cout << "Richting ('b'oven, 'o'nder, 'l'inks, 'r'echts): ";
-	    cin >> direction;
+	while(VALIDINPUT) {
+	    cout << "\nKies startcoordinaat (bijvoorbeeld: 'c 6'): ";
+	    cin >> cX  >> y;
+
+	    if(cX != 'a' && cX != 'b' && cX != 'c' && cX != 'd' && cX != 'e' &&
+	       cX != 'f' && cX != 'g' && cX != 'h' && cX != 'i' && cX != 'j') {
+		cout << "Ongeldig x-coordinaat. Probeer het opnieuw (a-j).\n";
+		cin.ignore(10000,'\n');
+		cin.clear();
+	    }
+	    else if(y < 0 || y > 9) {
+		cout << "Ongeldig y-coordinaat. Probeer het opnieuw (0-9).\n";
+		cin.ignore(10000,'\n');
+		cin.clear();
+	    }
+	    else {
+		VALIDINPUT = false;
+	    }
 	}
-	else {
-	    direction = 'r';
+
+	while(VALIDINPUTDIR) {
+	    if(size > 1) {
+		cout << "Richting ('b'oven, 'o'nder, 'l'inks, 'r'echts): ";
+		cin >> direction;
+	    }
+	    else {
+		direction = 'r';
+	    }
+	
+	    if(direction != 'b' && direction != 'o' && direction != 'l' && direction != 'r') {
+		cout << "Ongeldige richting. Probeer het opnieuw ('b', 'o', 'l', 'r').\n";
+		cin.ignore(10000,'\n');
+		cin.clear();
+	    }
+	    else {
+		VALIDINPUTDIR = false;
+	    }
 	}
 	
 	// Convert the char-input of x coordinate to int
@@ -185,8 +217,8 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField)
 	if(((y-1)>=0) && ((x-1)>=0)) PutField.SetLocation(x-1,y-1,7);
 	if(((y-1)>=0) && ((x+1)<10)) PutField.SetLocation(x+1,y-1,7);
 	if((y+size)<10) PutField.SetLocation(x,y+size,7);
-	if(((y+size)>=0) && ((x-1)>=0)) PutField.SetLocation(x-1,y+size,7);
-	if(((y+size)>=0) && ((x+1)<10)) PutField.SetLocation(x+1,y+size,7);
+	if(((y+size)<10) && ((x-1)>=0)) PutField.SetLocation(x-1,y+size,7);
+	if(((y+size)<10) && ((x+1)<10)) PutField.SetLocation(x+1,y+size,7);
 	break;
     case 'l':
 	for(int i=0; i<size; ++i) {

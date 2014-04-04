@@ -21,7 +21,7 @@ int main()
     bool PLAY = true, GO = true, DONE = false;
     int nTurn = 0, P1Counter = 20, P2Counter = 20; // nTurn counts turns, Counters deduct points from 20; if 0 all ships are destroyed
     string player1, player2;
-    int nChoice;
+    int nChoice, nGuess;
     ofstream statsFile;
     
     Ship P1Battleship, P1Cruiser1, P1Cruiser2, P1TorpedoBoat1, P1TorpedoBoat2,
@@ -37,6 +37,7 @@ int main()
 
     while(GO)
     {
+	DONE = false;
 	DrawTitle();
 	cout << "ZEESLAG - HOOFDMENU\n\n"
 	     << "Zeeslag is een spel waarbij je strijdt om de macht op de zee. Het is de bedoeling om de schepen \n"
@@ -47,7 +48,7 @@ int main()
 	     << "elkaar niet raken.\n\n"
 	     << "Veel plezier gewenst!\n- Jonathan\n\n"
 	     << "1) Speler tegen speler\n"
-	     << "2) Speler tegen AI (nog niet beschikbaar)\n"
+	     << "2) Speler tegen computer\n"
 	     << "3) Stoppen\n";
 	    while(!DONE) {
 		cout << "Maak je keuze (1-3): ";
@@ -58,12 +59,17 @@ int main()
 		    cout << "Ongeldige invoer. Probeer het opnieuw (1-3):\n";
 	    }
     
-	if(nChoice == 1) {
+	if(nChoice == 1 || nChoice == 2) {
 	    // Let players enter their name
 	    cout << "Speler 1, typ je naam: ";
 	    cin >> player1;
-	    cout << "Speler 2, typ je naam: ";
-	    cin >> player2;
+	    if(nChoice == 1) {
+		cout << "Speler 2, typ je naam: ";
+		cin >> player2;
+	    }
+	    else if(nChoice == 2) {
+		player2 = "Computer";
+	    }
 
 	    // Create the fields for both players and their accompanying hitfields
 	    P1Field.Create();
@@ -76,7 +82,12 @@ int main()
 	    DrawScreen(P1Field, P2Field);
 	    PlaceShips(P1Field, P2Field, vP1Ships, 1, player1);
 	    DrawScreen(P1HitField, P2Field);
-	    PlaceShips(P1HitField, P2Field, vP2Ships, 2, player2);
+	    if(nChoice == 1) {
+		PlaceShips(P1HitField, P2Field, vP2Ships, 2, player2);
+	    }
+	    else if(nChoice == 2) {
+		AIPlaceShips(P2Field, vP2Ships);
+	    }
 	    DrawScreen(P2HitField, P1HitField);
 	    cout << endl << endl;
 
@@ -84,7 +95,7 @@ int main()
 	    {
 		// Player 1 turn
 		if(nTurn % 2 == 0) {
-		    int nGuess = Guess(nTurn, P2Field, P2HitField, player1); // Guess returns 1 if hit
+		    nGuess = Guess(nTurn, P2Field, P2HitField, player1); // Guess returns 1 if hit
 		    P1Counter -= nGuess;
 		    DrawScreen(P2HitField, P1HitField);
 		    if(nGuess==1)
@@ -94,7 +105,12 @@ int main()
 		}
 		// Player 2 turn
 		if(nTurn % 2 != 0) {
-		    int nGuess = Guess(nTurn, P1Field, P1HitField, player2); // Guess returns 1 if hit
+		    if(nChoice == 1) {
+			nGuess = Guess(nTurn, P1Field, P1HitField, player2); // Guess returns 1 if hit
+		    }
+		    else if(nChoice == 2) {
+			nGuess = AIGuess(nTurn, P1Field, P1HitField, player2);
+		    }
 		    P2Counter -= nGuess;
 		    DrawScreen(P2HitField, P1HitField);
 		    if(nGuess==1)
@@ -125,7 +141,7 @@ int main()
 		statsFile.close();
 
 	    }
-	    cout << "Je hebt er " << nTurn << " beurten over gedaan.\n";
+	    cout << "Je hebt er " << nTurn << " beurten over gedaan.\n\n";
 	    cin.ignore();
 	}
 
@@ -258,7 +274,8 @@ void DrawShipsRemaining(vector <Ship>& vShips)
     if(vShips.at(7).GetSize()==0)
 	cout << "(1) ";
     if(vShips.at(8).GetSize()==0)
-	cout << "(1)\n\n";
+	cout << "(1)";
+    cout << "\n\n";
 }
 
 // Guess a location
@@ -268,14 +285,30 @@ int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string 
     int x, y;
     char cX;
     int guess = 0; // Returns 1 when hit
+    bool VALIDINPUT = true;
 
-    if(turn % 2 == 0) {
-	cout << playerName << ", geef een locatie (bijvoorbeeld 'c 6'): ";
-	cin >> cX >> y;
-    }
-    if(turn % 2 != 0) {
-	cout << playerName << ", geef een locatie (bijvoorbeeld 'c 6'): ";
-	cin >> cX >> y;
+    while(VALIDINPUT) {
+	if(turn % 2 == 0) {
+	    cout << playerName << ", geef een locatie (bijvoorbeeld 'c 6'): ";
+	    cin >> cX >> y;
+	}
+	if(turn % 2 != 0) {
+	    cout << playerName << ", geef een locatie (bijvoorbeeld 'c 6'): ";
+	    cin >> cX >> y;
+	}
+
+	if(cX != 'a' && cX != 'b' && cX != 'c' && cX != 'd' && cX != 'e' &&
+	   cX != 'f' && cX != 'g' && cX != 'h' && cX != 'i' && cX != 'j') {
+	    cout << "Ongeldig x-coordinaat. Probeer het opnieuw (a-j).\n";
+	    cin.ignore(10000,'\n');
+	}
+	else if(y < 0 || y > 9) {
+	    cout << "Ongeldig y-coordinaat. Probeer het opnieuw (0-9).\n";
+	    cin.ignore(10000,'\n');
+	}
+	else {
+	    VALIDINPUT = false;
+	}
     }
 
     switch(cX) {
@@ -316,7 +349,7 @@ int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string 
     if(OtherPlayerField.GetContent(x,y) > 0 && OtherPlayerField.GetContent(x,y) < 5) {
 	OtherPlayerHitField.SetLocation(x, y, OtherPlayerField.GetContent(x,y));
 	guess = 1;
-     }
+    }
     else {
 	OtherPlayerHitField.SetLocation(x, y, 6); // 6 is miss
     }

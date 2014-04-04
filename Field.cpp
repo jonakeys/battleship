@@ -28,7 +28,7 @@ void Field::Draw(int row)
 	    cout << ".  ";
 	}
 	else if(field[i][row]==6){
-	    cout << "M  ";
+	    cout << "m  ";
 	}
 	else if(field[i][row]==7){
 	    cout << "   ";
