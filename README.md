@@ -23,4 +23,9 @@ Each player has 10 ships:
 
 -- BATTLE --
 In turn, each player fires a shot. When it hits, the number of the ship is revealed.
-When it misses, an 'M' is displayed on the field.
+When the shots misses, an 'm' is displayed on the field.
+
+-- OPTIONS --
+In the main menu there's an option to play against the computer.
+When a game is won and the program quits, the results are written to a file named 'statsFile.txt'
+in the same directory as the game is run.
