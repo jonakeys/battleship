@@ -11,22 +11,23 @@ void DrawScreen(Field& Player1Field, Field& Player2Field)
     system("clear");
     DrawTitle();
     cout << "\t Speler 1\t\t\t\t\t       Speler 2\n"
-	 << "\t_______________________________________\t\t       _______________________________________\n"
-	 << "\t|\t\t\t\t       |\t      |\t\t\t\t\t     |" << endl
-	 << "\t|     a  b  c  d  e  f  g  h  i  j     |\t      |     a  b  c  d  e  f  g  h  i  j     |" 
-	 << endl 
-	 << "\t|\t\t\t\t       |\t      |\t\t\t\t\t     |" << endl;
+	 << "\t ________________________________________\t       ________________________________________\n"
+	 << "\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl
+	 << "\t|      a  b  c  d  e  f  g  h  i  j      |\t      |     a  b  c  d  e  f  g  h  i  j       |" << endl 
+	 << "\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl
+	 << "\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl;
 
     for(int i=0; i<10; ++i){
-	cout << "\t|  " << i << "  ";
+	cout << "\t|  " << i << "   ";
 	DrawField(Player1Field, i);
-	cout <<  i << "  |\t      |  " << i << "  ";
+	cout <<  " " << i << "  |\t      |  " << i << "   ";
 	DrawField(Player2Field, i);
-	cout << i << "  |" << endl 
-	     <<"\t|\t\t\t\t       |\t      |\t\t\t\t\t     |" << endl;
+	cout << " " << i << "  |" << endl 
+	     <<"\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl;
     }
-    cout << "\t|     a  b  c  d  e  f  g  h  i  j     |\t      |     a  b  c  d  e  f  g  h  i  j     |" << endl 
-	 << "\t|______________________________________|\t      |______________________________________|\n\n" << endl;
+    cout << "\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl
+	 << "\t|      a  b  c  d  e  f  g  h  i  j      |\t      |     a  b  c  d  e  f  g  h  i  j       |" << endl 
+	 << "\t|________________________________________|\t      |________________________________________|\n\n" << endl;
 }	
       
 // Draw the title

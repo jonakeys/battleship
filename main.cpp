@@ -38,7 +38,6 @@ int main()
     while(GO)
     {
 	DONE = false;
-	system("clear");
 	DrawTitle();
 	cout << "ZEESLAG\n\n"
 	     << "Zeeslag is een spel waarbij je strijdt om de macht op de zee. Het is de bedoeling om de schepen \n"
@@ -147,10 +146,6 @@ int main()
 	    cin.ignore();
 	}
 
-	else if(nChoice == 2) {
-	    cout << "Sorry, deze functie is nog niet geimplementeerd.\n";
-	}
-	
 	else if(nChoice == 3) {
 	    statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
 	    statsFile << "Zeeslag is afgesloten.\n\n";
@@ -294,7 +289,7 @@ int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string 
 	    cout << playerName << ", geef een locatie (bijvoorbeeld 'c 6'): ";
 	    cin >> cX >> y;
 	}
-	if(turn % 2 != 0) {
+	else if(turn % 2 != 0) {
 	    cout << playerName << ", geef een locatie (bijvoorbeeld 'c 6'): ";
 	    cin >> cX >> y;
 	}
@@ -308,44 +303,48 @@ int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string 
 	    cout << "Ongeldig y-coordinaat. Probeer het opnieuw (0-9).\n";
 	    cin.ignore(10000,'\n');
 	}
-	else {
+
+	switch(cX) {
+	case 'a':
+	    x = 0;
+	    break;
+	case 'b':
+	    x = 1;
+	    break;
+	case 'c':
+	    x = 2;
+	    break;
+	case 'd':
+	    x = 3;
+	    break;
+	case 'e':
+	    x = 4;
+	    break;
+	case 'f':
+	    x = 5;
+	    break;
+	case 'g':
+	    x = 6;
+	    break;
+	case 'h':
+	    x = 7;
+	    break;
+	case 'i':
+	    x = 8;
+	    break;
+	case 'j':
+	    x = 9;
+	    break;
+	default:
+	    break;
+	}
+
+	if(OtherPlayerHitField.GetContent(x,y)==0) {
 	    VALIDINPUT = false;
 	}
-    }
-
-    switch(cX) {
-    case 'a':
-	x = 0;
-	break;
-    case 'b':
-	x = 1;
-	break;
-    case 'c':
-	x = 2;
-	break;
-    case 'd':
-	x = 3;
-	break;
-    case 'e':
-	x = 4;
-	break;
-    case 'f':
-	x = 5;
-	break;
-    case 'g':
-	x = 6;
-	break;
-    case 'h':
-	x = 7;
-	break;
-    case 'i':
-	x = 8;
-	break;
-    case 'j':
-	x = 9;
-	break;
-    default:
-	break;
+	else if(OtherPlayerHitField.GetContent(x,y)>0) {
+	    cout << "De gekozen locatie is al bezet. Probeer het opnieuw.\n";
+	}
     }
     
     if(OtherPlayerField.GetContent(x,y) > 0 && OtherPlayerField.GetContent(x,y) < 5) {
