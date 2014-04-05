@@ -5,6 +5,7 @@
 #include <vector>
 #include "Field.h"
 #include "Loc.h"
+
 using namespace std;
 
 class Ship

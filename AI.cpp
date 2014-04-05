@@ -12,109 +12,141 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
     int x, y;
     int xAdj = -1, yAdj = -1, nDir;
     bool TRY = true, ADJACENT = true, NDIROK = true, RANDNUM = true;
-    
+    int nContent, nContentNext0=0, nContentNext1=0, nContentNext2=0, nContentNext3=0;
+    int nCheckShip, nCheckShip2;
+      
     srand(time(NULL));
     
     while(ADJACENT) {
 	for(int i = 0; i < 10; ++i) {
 	    for(int j = 0; j < 10; ++j) {
-		if(OtherPlayerHitField.GetContent(i,j)>1 && OtherPlayerHitField.GetContent(i,j)<=4 
-		   && xAdj==-1 && yAdj==-1) {
-		    xAdj = i;
-		    yAdj = j;
+		nContent = OtherPlayerHitField.GetContent(i,j);
+		nContentNext0 = OtherPlayerHitField.GetContent(i+1,j);
+		nContentNext1 = OtherPlayerHitField.GetContent(i,j+1);
+		nContentNext2 = OtherPlayerHitField.GetContent(i-1,j);
+		nContentNext3 = OtherPlayerHitField.GetContent(i,j-1);
+		if((OtherPlayerHitField.GetContent(i,j) > 1) && (OtherPlayerHitField.GetContent(i,j) < 5)) {
+		    if((nContent != nContentNext0) || (nContent != nContentNext1)
+		       ||(nContent != nContentNext2) || (nContent != nContentNext3)) {
+			xAdj = i;
+			yAdj = j;
+		    }
 		}
 	    }
 	}
 
-       	if(xAdj!=-1 && yAdj!=-1) {
+		
+	if(xAdj>=0 && yAdj>=0) {
+	    int count[4] = {0, 1, 2, 3};
 	    while(NDIROK) {
-		srand(time(NULL));
-		nDir = rand() % 4;
-		if((nDir==0 && yAdj>0) || (nDir==1 && yAdj<9) || (nDir==2 && xAdj>0) || (nDir==3 && xAdj<9)) {
+		if((count[0] == 0) || (count[1] == 1) || (count[2] == 2) || (count[3] == 3)) {
+		    nDir = rand() % 4;
 		    switch(nDir) {
 		    case 0:
-			if(yAdj>0) {
-			    if(OtherPlayerHitField.GetContent(xAdj,yAdj-1)==0) {
-				if(OtherPlayerField.GetContent(xAdj,yAdj-1)!=7) {
-				    OtherPlayerHitField.SetLocation(xAdj,yAdj-1,OtherPlayerField.GetContent(xAdj,yAdj-1));
-				    TRY = false;
-				    NDIROK = false;
-				    ADJACENT = false;
-				}
-			    }
-			}
+			count[0] = 5;
 			break;
 		    case 1:
-			if(yAdj<9) {
-			    if(OtherPlayerHitField.GetContent(xAdj,yAdj+1)==0) {
-				if(OtherPlayerField.GetContent(xAdj,yAdj+1)!=7) {
-				    OtherPlayerHitField.SetLocation(xAdj,yAdj+1,OtherPlayerField.GetContent(xAdj,yAdj+1));
-				    TRY = false;
-				    NDIROK = false;
-				    ADJACENT = false;
-				}
-			    }
-			}
+			count[1] = 5;
 			break;
 		    case 2:
-			if(xAdj>0) {
-			    if(OtherPlayerHitField.GetContent(xAdj-1,yAdj)==0) {
-				if(OtherPlayerField.GetContent(xAdj-1,yAdj)!=7) {
-				    OtherPlayerHitField.SetLocation(xAdj-1,yAdj,OtherPlayerField.GetContent(xAdj-1,yAdj));
-				    TRY = false;
-				    NDIROK = false;
-				    ADJACENT = false;
-				}
-			    }
-			}
+			count[2] = 5;
 			break;
 		    case 3:
-			if(xAdj<9) {
-			    if(OtherPlayerHitField.GetContent(xAdj+1,yAdj)==0) {
-				if(OtherPlayerField.GetContent(xAdj+1,yAdj)!=7) {
-				    OtherPlayerHitField.SetLocation(xAdj+1,yAdj,OtherPlayerField.GetContent(xAdj+1,yAdj));
-				    TRY = false;
-				    NDIROK = false;
-				    ADJACENT = false;
-				}
-			    }
-			}
-			break;
-		    default:
+			count[3] = 5;
 			break;
 		    }
+		    if((nDir==0 && yAdj>0) || (nDir==1 && yAdj<9) || (nDir==2 && xAdj>0) || (nDir==3 && xAdj<9)) {
+			switch(nDir) {
+			case 0:
+			    nCheckShip = OtherPlayerHitField.GetContent(xAdj,yAdj-1);
+			    nCheckShip2 = OtherPlayerField.GetContent(xAdj,yAdj-1);
+			    if(nCheckShip==0) {
+				if(nCheckShip2!=7)OtherPlayerHitField.SetLocation(xAdj,yAdj-1,OtherPlayerField.GetContent(xAdj,yAdj-1));
+				else { OtherPlayerHitField.SetLocation(xAdj,yAdj-1,6); }
+				TRY = false;
+				NDIROK = false;
+				ADJACENT = false;
+				if((nCheckShip>=1) && (nCheckShip<5)) {
+				    nGuess = 1;
+				}
+			    }
+			    break;
+			case 1:
+			    nCheckShip = OtherPlayerHitField.GetContent(xAdj,yAdj+1);
+			    nCheckShip2 = OtherPlayerField.GetContent(xAdj,yAdj+1);
+			    if(nCheckShip==0) {
+				if(nCheckShip2!=7) OtherPlayerHitField.SetLocation(xAdj,yAdj+1,OtherPlayerField.GetContent(xAdj,yAdj+1));
+				else { OtherPlayerHitField.SetLocation(xAdj,yAdj+1,6); }
+				TRY = false;
+				NDIROK = false;
+				ADJACENT = false;
+				if((nCheckShip>=1) && (nCheckShip<5)) {
+				    nGuess = 1;
+				}
+			    }
+			    break;
+			case 2:
+			    nCheckShip = OtherPlayerHitField.GetContent(xAdj-1,yAdj);
+			    nCheckShip2 = OtherPlayerField.GetContent(xAdj-1,yAdj);
+			    if(nCheckShip==0) {
+				if(nCheckShip2!=7) OtherPlayerHitField.SetLocation(xAdj-1,yAdj,OtherPlayerField.GetContent(xAdj-1,yAdj));
+				else { OtherPlayerHitField.SetLocation(xAdj-1,yAdj,6); }
+				TRY = false;
+				NDIROK = false;
+				ADJACENT = false;
+				if((nCheckShip>=1) && (nCheckShip<5)) {
+				    nGuess = 1;
+				}
+			    }
+			    break;
+			case 3:
+			    nCheckShip = OtherPlayerHitField.GetContent(xAdj+1,yAdj);
+			    nCheckShip2 = OtherPlayerField.GetContent(xAdj+1,yAdj);
+			    if(nCheckShip==0) {
+				if(nCheckShip2!=7) OtherPlayerHitField.SetLocation(xAdj+1,yAdj,OtherPlayerField.GetContent(xAdj+1,yAdj));
+				else { OtherPlayerHitField.SetLocation(xAdj+1,yAdj,6); }
+				TRY = false;
+				NDIROK = false;
+				ADJACENT = false;
+				if((nCheckShip>=1) && (nCheckShip<5)) {
+				    nGuess = 1;
+				}
+			    }
+			    break;
+			default:
+			    break;
+			}
+		    }
 		}
-		else { ADJACENT = false; NDIROK = false;}
+		else { NDIROK = false;}
 	    }
 	}
-	else if(xAdj==-1 && yAdj==-1) {
-	    NDIROK = false;
-	    ADJACENT = false;
-	}
+	ADJACENT = false;
     }
     
-    while(TRY) {
-	while(RANDNUM) {
-	    x = rand() % 10;
-	    y = rand() % 10;
+while(TRY) {
+    while(RANDNUM) {
+	x = rand() % 10;
+	y = rand() % 10;
 	    
-	    if(OtherPlayerHitField.GetContent(x,y) == 0) {
-		RANDNUM = false;
-	    }
-	}
-	
-	if(OtherPlayerField.GetContent(x,y) > 0 && OtherPlayerField.GetContent(x,y) < 5) {
-	    OtherPlayerHitField.SetLocation(x, y, OtherPlayerField.GetContent(x,y));
-	    nGuess = 1;
-	    TRY = false;
-	}
-	else {
-	    OtherPlayerHitField.SetLocation(x, y, 6); // 6 is miss
-	    TRY = false;
+	if(OtherPlayerHitField.GetContent(x,y) == 0) {
+	    RANDNUM = false;
 	}
     }
+    nContent = OtherPlayerField.GetContent(x,y);
+	
+    if(nContent > 0 && nContent < 5) {
+	OtherPlayerHitField.SetLocation(x, y, nContent);
+	nGuess = 1;
+	TRY = false;
+    }
+    else {
+	OtherPlayerHitField.SetLocation(x, y, 6); // 6 is miss
+	TRY = false;
+    }
+}
     
-    return nGuess;
+return nGuess;
 }
 
 void AIPlaceShips(Field& PutField, vector <Ship>& vShips)
