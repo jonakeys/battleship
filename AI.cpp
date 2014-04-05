@@ -10,27 +10,107 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 {
     int nGuess = 0;
     int x, y;
-    bool TRY = true;
+    int xAdj = -1, yAdj = -1, nDir;
+    int nUp, nDown, nLeft, nRight;
+    bool TRY = true, ADJACENT = true, NDIROK = true, RANDNUM = true;
     
     srand(time(NULL));
+    
+    while(ADJACENT) {
+	for(int i = 0; i < 10; ++i) {
+	    for(int j = 0; j < 10; ++j) {
+		if(OtherPlayerHitField.GetContent(i,j)>=1 && OtherPlayerHitField.GetContent(i,j)<=4 
+		   && xAdj==-1 && yAdj==-1) {
+		    xAdj = i;
+		    xAdj = j;
+		}
+	    }
+	}
 
+	nUp = yAdj-1;
+	nDown = yAdj+1;
+	nLeft = xAdj-1;
+	nRight = xAdj+1;
+       	if(xAdj!=-1 && yAdj!=-1) {
+	    while(NDIROK) {
+		srand(time(NULL));
+		nDir = rand() % 4;
+		if((nDir==0 && yAdj>0) || (nDir==1 && yAdj<9) || (nDir==2 && xAdj>0) || (nDir==3 && xAdj<9)) {
+		    switch(nDir) {
+		    case 0:
+			if(yAdj>0) {
+			    if(OtherPlayerHitField.GetContent(xAdj,yAdj-1)==0) {
+				OtherPlayerHitField.SetLocation(xAdj,yAdj-1,OtherPlayerField.GetContent(xAdj,yAdj-1));
+				TRY = false;
+				NDIROK = false;
+				ADJACENT = false;
+			    }
+			}
+			break;
+		    case 1:
+			if(yAdj<9) {
+			    if(OtherPlayerHitField.GetContent(xAdj,yAdj+1)==0) {
+				OtherPlayerHitField.SetLocation(xAdj,yAdj+1,OtherPlayerField.GetContent(xAdj,yAdj+1));
+				TRY = false;
+				NDIROK = false;
+				ADJACENT = false;
+			    }
+			}
+			break;
+		    case 2:
+			if(xAdj>0) {
+			    if(OtherPlayerHitField.GetContent(xAdj-1,yAdj)==0) {
+				OtherPlayerHitField.SetLocation(xAdj-1,yAdj,OtherPlayerField.GetContent(xAdj-1,yAdj));
+				TRY = false;
+				NDIROK = false;
+				ADJACENT = false;
+			    }
+			}
+			break;
+		    case 3:
+			if(xAdj<9) {
+			    if(OtherPlayerHitField.GetContent(xAdj+1,yAdj)==0) {
+				OtherPlayerHitField.SetLocation(xAdj+1,yAdj,OtherPlayerField.GetContent(xAdj+1,yAdj));
+				TRY = false;
+				NDIROK = false;
+				ADJACENT = false;
+			    }
+			}
+			break;
+		    default:
+			break;
+		    }
+		}
+		else { ADJACENT = false; NDIROK = false;}
+	    }
+	}
+	else if(xAdj==-1 && yAdj==-1) {
+	    NDIROK = false;
+	    ADJACENT = false;
+	}
+    }
+    
     while(TRY) {
-	x = rand() % 10;
-	y = rand() % 10;
+	while(RANDNUM) {
+	    x = rand() % 10;
+	    y = rand() % 10;
+	    
+	    if(OtherPlayerHitField.GetContent(x,y) == 0) {
+		RANDNUM = false;
+	    }
+	}
 	
-	if(OtherPlayerHitField.GetContent(x,y) == 0) {
+	if(OtherPlayerField.GetContent(x,y) > 0 && OtherPlayerField.GetContent(x,y) < 5) {
+	    OtherPlayerHitField.SetLocation(x, y, OtherPlayerField.GetContent(x,y));
+	    nGuess = 1;
+	    TRY = false;
+	}
+	else {
+	    OtherPlayerHitField.SetLocation(x, y, 6); // 6 is miss
 	    TRY = false;
 	}
     }
-
-    if(OtherPlayerField.GetContent(x,y) > 0 && OtherPlayerField.GetContent(x,y) < 5) {
-	OtherPlayerHitField.SetLocation(x, y, OtherPlayerField.GetContent(x,y));
-	nGuess = 1;
-    }
-    else {
-	OtherPlayerHitField.SetLocation(x, y, 6); // 6 is miss
-    }
-	
+    
     return nGuess;
 }
 

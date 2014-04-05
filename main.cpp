@@ -38,8 +38,9 @@ int main()
     while(GO)
     {
 	DONE = false;
+	system("clear");
 	DrawTitle();
-	cout << "ZEESLAG - HOOFDMENU\n\n"
+	cout << "ZEESLAG\n\n"
 	     << "Zeeslag is een spel waarbij je strijdt om de macht op de zee. Het is de bedoeling om de schepen \n"
 	     << "van je tegenstander te vinden en tot zinken te brengen.\n"
 	     << "Het spel begint met het plaatsen van de schepen op het speelveld. Daarna mag je om de beurt een \n"
@@ -47,6 +48,7 @@ int main()
 	     << "Bij het plaatsen mogen de schepen alleen horizontaal en verticaal geplaatst worden. Ook mogen ze \n"
 	     << "elkaar niet raken.\n\n"
 	     << "Veel plezier gewenst!\n- Jonathan\n\n"
+	     << "HOOFDMENU\n"
 	     << "1) Speler tegen speler\n"
 	     << "2) Speler tegen computer\n"
 	     << "3) Stoppen\n";
