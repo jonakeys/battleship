@@ -12,5 +12,6 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 void AIPlaceShips(Field& PutField, vector <Ship>& vShips);
 void AICreateShip(Ship& PlayerShip, int size, Field& PutField);
 int CheckReady(Field& OtherPlayerHitField, int x, int y, int size);
+int CheckRow(int size, int x, int y, Field& OtherPlayerHitField);
 
 #endif
