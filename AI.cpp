@@ -15,7 +15,6 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
     int nContent, nContentNext0=0, nContentNext1=0, nContentNext2=0, nContentNext3=0;
     int nCheckShip, nCheckShip2;
     int nI = 0, nJ = 0;
-    int nSet = 0;
       
     srand(time(NULL));
     
@@ -39,10 +38,12 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 				    else nContentNext2 = OtherPlayerHitField.GetContent(i,j);
 				    if((j-1)>=0) {nContentNext3 = OtherPlayerHitField.GetContent(i,j-1); }
 				    else nContentNext3 = OtherPlayerHitField.GetContent(i,j);
-				    if(((nContentNext0 == 0) || (nContentNext1 == 0)
-					||(nContentNext2 == 0) || (nContentNext3) == 0)) {
-					xAdj = i;
-					yAdj = j;
+				    if((CheckReady(OtherPlayerHitField,i,j,OtherPlayerHitField.GetContent(i,j))==0)) {
+					if(((nContentNext0 == 0) || (nContentNext1 == 0)
+					    ||(nContentNext2 == 0) || (nContentNext3) == 0)) {
+					    xAdj = i;
+					    yAdj = j;
+					}
 				    }
 				}
 			    }
@@ -333,4 +334,55 @@ void AICreateShip(Ship& AIShip, int size, Field& PutField)
 	if(((x+size)<10) && ((y+1)<10)) PutField.SetLocation(x+size,y+1,7);
 	break;
     }
+}
+
+int CheckReady(Field& OtherPlayerHitField, int x, int y, int size)
+{
+    int nReady = 0;
+    int i = x;
+    int j = y;
+
+    if(size==4) {
+	if((OtherPlayerHitField.GetContent(i+1,j)==size) && (OtherPlayerHitField.GetContent(i+2,j)==size) &&
+	   (OtherPlayerHitField.GetContent(i+3,j)==size)) { nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i-1,j)==size) && (OtherPlayerHitField.GetContent(i+1,j)==size) &&
+	   (OtherPlayerHitField.GetContent(i+2,j)==size)) { nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i-2,j)==size) && (OtherPlayerHitField.GetContent(i-1,j)==size) &&
+	   (OtherPlayerHitField.GetContent(i+1,j)==size)) { nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i-3,j)==size) && (OtherPlayerHitField.GetContent(i-2,j)==size) &&
+	   (OtherPlayerHitField.GetContent(i-1,j)==size)) { nReady = 1; }
+	
+	else if((OtherPlayerHitField.GetContent(i,j+1)==size) && (OtherPlayerHitField.GetContent(i,j+2)==size) &&
+	   (OtherPlayerHitField.GetContent(i,j+3)==size)) { nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i,j-1)==size) && (OtherPlayerHitField.GetContent(i,j+1)==size) &&
+	   (OtherPlayerHitField.GetContent(i,j+2)==size)) { nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i,j-2)==size) && (OtherPlayerHitField.GetContent(i,j-1)==size) &&
+	   (OtherPlayerHitField.GetContent(i,j+1)==size)) { nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i,j-3)==size) && (OtherPlayerHitField.GetContent(i,j-2)==size) &&
+	   (OtherPlayerHitField.GetContent(i,j-1)==size)) { nReady = 1; }
+    }
+    else if(size==3) {
+	if((OtherPlayerHitField.GetContent(i+1,j)==size) && (OtherPlayerHitField.GetContent(i+2,j)==size)) {
+	    nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i-1,j)==size) && (OtherPlayerHitField.GetContent(i+1,j)==size)) {
+	    nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i-2,j)==size) && (OtherPlayerHitField.GetContent(i-1,j)==size)) {
+	    nReady = 1; }
+
+	else if((OtherPlayerHitField.GetContent(i,j+1)==size) && (OtherPlayerHitField.GetContent(i,j+2)==size)) {
+	    nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i,j-1)==size) && (OtherPlayerHitField.GetContent(i,j+1)==size)) {
+	    nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i,j-2)==size) && (OtherPlayerHitField.GetContent(i,j-1)==size)) {
+	    nReady = 1; }
+    }
+    else if(size==2) {
+	if((OtherPlayerHitField.GetContent(i+1,j)==size)) { nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i-1,j)==size)) { nReady = 1; }
+
+	else if((OtherPlayerHitField.GetContent(i,j+1)==size)) { nReady = 1; }
+	else if((OtherPlayerHitField.GetContent(i,j-1)==size)) { nReady = 1; }
+    }
+
+    return nReady;
 }
