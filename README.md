@@ -1,7 +1,7 @@
 battleship
 ==========
 
-Battleship game
+Battleship game (Zeeslag)
 
 	   // Created by Jonathan van der Steege (March 2014)
 	   // jonakeys@hotmail.com
