@@ -130,7 +130,7 @@ int main()
 		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
 		statsFile << player1 << " heeft gewonnen.\n"
 			  << "De tegenstander was: " << player2 << ".\n"
-			  << player1 << " heeft er " << nTurn << " beurten over gedaan.\n";
+			  << player1 << " heeft er " << nTurn/2 << " beurten over gedaan.\n";
 		statsFile.close();
 	    }
 	    else if(P2Counter == 0) {
@@ -138,11 +138,11 @@ int main()
 		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
 		statsFile << player2 << " heeft gewonnen.\n"
 			  << "De tegenstander was: " << player1 << ".\n"
-			  << player2 << " heeft er " << nTurn << " beurten over gedaan.\n";
+			  << player2 << " heeft er " << nTurn/2 << " beurten over gedaan.\n";
 		statsFile.close();
 
 	    }
-	    cout << "Je hebt er " << nTurn << " beurten over gedaan.\n\n";
+	    cout << "Je hebt er " << nTurn/2 << " beurten over gedaan.\n\n";
 	    cin.ignore();
 	}
 

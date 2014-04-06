@@ -15,6 +15,7 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
     int nContent, nContentNext0=0, nContentNext1=0, nContentNext2=0, nContentNext3=0;
     int nCheckShip, nCheckShip2;
     int nI = 0, nJ = 0;
+    int nSign;
       
     srand(time(NULL));
     
@@ -27,60 +28,101 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 			    i += nI;
 			    if((j+nJ)<10) {
 				j += nJ;
-				if(((OtherPlayerHitField.GetContent(i,j) > 1) && (OtherPlayerHitField.GetContent(i,j) < 5)) ) {
-				    if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 0) {
-					nContent = OtherPlayerHitField.GetContent(i,j);
-					if((i+1)<10) { nContentNext0 = OtherPlayerHitField.GetContent(i+1,j); }
-					else nContentNext0 = OtherPlayerHitField.GetContent(i,j);
-					if((j+1)<10) { nContentNext1 = OtherPlayerHitField.GetContent(i,j+1);  }
-					else nContentNext1 = OtherPlayerHitField.GetContent(i,j);
-					if((i-1)>=0) {nContentNext2 = OtherPlayerHitField.GetContent(i-1,j); }
-					else nContentNext2 = OtherPlayerHitField.GetContent(i,j);
-					if((j-1)>=0) {nContentNext3 = OtherPlayerHitField.GetContent(i,j-1); }
-					else nContentNext3 = OtherPlayerHitField.GetContent(i,j);
+				if(((OtherPlayerHitField.GetContent(i,j) > 1) && (OtherPlayerHitField.GetContent(i,j) < 5)) &&
+				   xAdj==-1) {
+				    nContent = OtherPlayerHitField.GetContent(i,j);
+				    if((i+1)<10) { nContentNext0 = OtherPlayerHitField.GetContent(i+1,j); }
+				    else nContentNext0 = OtherPlayerHitField.GetContent(i,j);
+				    if((j+1)<10) { nContentNext1 = OtherPlayerHitField.GetContent(i,j+1);  }
+				    else nContentNext1 = OtherPlayerHitField.GetContent(i,j);
+				    if((i-1)>=0) {nContentNext2 = OtherPlayerHitField.GetContent(i-1,j); }
+				    else nContentNext2 = OtherPlayerHitField.GetContent(i,j);
+				    if((j-1)>=0) {nContentNext3 = OtherPlayerHitField.GetContent(i,j-1); }
+				    else nContentNext3 = OtherPlayerHitField.GetContent(i,j);
+				    if( (nContentNext0 == 0) || (nContentNext1 == 0)
+					||(nContentNext2 == 0) || (nContentNext3 == 0) ) {
 					if( ( CheckReady(OtherPlayerHitField,i,j,OtherPlayerHitField.GetContent(i,j)) == 0 ) ) {
-					    if( (nContentNext0 == 0) || (nContentNext1 == 0)
-						||(nContentNext2 == 0) || (nContentNext3 == 0) ) {
+					    if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 0) {
 						xAdj = i;
 						yAdj = j;
 					    }
+					    // Up
+					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 1) {
+						xAdj = i;
+						yAdj = j-2;
+						if(OtherPlayerField.GetContent(i,j-2)!=7) {
+						    OtherPlayerHitField.SetLocation(i,j-2,OtherPlayerField.GetContent(i,j-2)); }
+						else OtherPlayerHitField.SetLocation(i,j-2,6);
+						NDIROK=false; TRY=false;
+						nGuess = 1;
+					    }
+					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 2) {
+						xAdj = i;
+						yAdj = j-3;
+						if(OtherPlayerField.GetContent(i,j-3)!=7) {
+						    OtherPlayerHitField.SetLocation(i,j-3,OtherPlayerField.GetContent(i,j-3)); }
+						else OtherPlayerHitField.SetLocation(i,j-3,6);
+						NDIROK=false; TRY=false;
+						nGuess = 1;
+					    }
+					    // Down
+					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 3) {
+						xAdj = i;
+						yAdj = j+2;
+						if(OtherPlayerField.GetContent(i,j+2)!=7) {
+						    OtherPlayerHitField.SetLocation(i,j+2,OtherPlayerField.GetContent(i,j+2)); }
+						else OtherPlayerHitField.SetLocation(i,j+2,6);
+						NDIROK=false; TRY=false;
+						nGuess = 1;
+					    }
+					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 4) {
+						xAdj = i;
+						yAdj = j+3;
+						if(OtherPlayerField.GetContent(i,j+3)!=7) {
+						    OtherPlayerHitField.SetLocation(i,j+3,OtherPlayerField.GetContent(i,j+3)); }
+						else OtherPlayerHitField.SetLocation(i,j+3,6);
+						NDIROK=false; TRY=false;
+						nGuess = 1;
+					    }
+					    // Left
+					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 5) {
+						xAdj = i-2;
+						yAdj = j;
+						if(OtherPlayerField.GetContent(i-2,j)!=7) {
+						    OtherPlayerHitField.SetLocation(i-2,j,OtherPlayerField.GetContent(i-2,j)); }
+						else OtherPlayerHitField.SetLocation(i-2,j,6);
+						NDIROK=false; TRY=false;
+						nGuess = 1;
+					    }
+					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 6) {
+						xAdj = i-3;
+						yAdj = j;
+						if(OtherPlayerField.GetContent(i-3,j)!=7) {
+						    OtherPlayerHitField.SetLocation(i-3,j,OtherPlayerField.GetContent(i-3,j)); }
+						else OtherPlayerHitField.SetLocation(i-3,j,6);
+						NDIROK=false; TRY=false;
+						nGuess = 1;
+					    }
+					    // Right
+					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 7) {
+						xAdj = i+2;
+						yAdj = j;
+						if(OtherPlayerField.GetContent(i+2,j)!=7) {
+						    OtherPlayerHitField.SetLocation(i+2,j,OtherPlayerField.GetContent(i+2,j)); }
+						else OtherPlayerHitField.SetLocation(i+2,j,6);
+						NDIROK=false; TRY=false;
+						nGuess = 1;
+					    }
+					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 8) {
+						xAdj = i+3;
+						yAdj = j;
+						if(OtherPlayerField.GetContent(i+3,j)!=7) {
+						    OtherPlayerHitField.SetLocation(i+3,j,OtherPlayerField.GetContent(i+3,j)); }
+						else OtherPlayerHitField.SetLocation(i+3,j,6);
+						NDIROK=false; TRY=false;
+						nGuess = 1;
+					    }
 					}
-				    }
-				    // Up
-				    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 1) {
-					xAdj = i;
-					yAdj = j-2;
-				    }
-				    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 2) {
-					xAdj = i;
-					yAdj = j-3;
-				    }
-				    // Down
-				    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 3) {
-					xAdj = i;
-					yAdj = j+2;
-				    }
-				    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 4) {
-					xAdj = i;
-					yAdj = j+3;
-				    }
-				    // Left
-				    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 5) {
-					xAdj = i-2;
-					yAdj = j;
-				    }
-				    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 6) {
-					xAdj = i-3;
-					yAdj = j;
-				    }
-				    // Right
-				    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 7) {
-					xAdj = i+2;
-					yAdj = j;
-				    }
-				    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 8) {
-					xAdj = i+3;
-					yAdj = j;
 				    }
 				}
 			    }
@@ -182,9 +224,8 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 	} 
 	if(nI==10) ADJACENT = false;
     }
-
     
-while(TRY) {
+    while(TRY) {
 	while(RANDNUM) {
 	    x = rand() % 10;
 	    y = rand() % 10;
@@ -432,28 +473,29 @@ int CheckRow(int size, int x, int y, Field& OtherPlayerHitField)
 	
     }
     else if(size==3) {
-	if(nUp==3) {
-	    if(OtherPlayerHitField.GetContent(x,y-2)>=0) {
+/*	if(nUp==3) {
+	    if((y-2)>=0) {
 		nCheck = 1; }
 	    else nCheck = 3;
 	}
 	else if(nDown==3) {
-	    if(OtherPlayerHitField.GetContent(x,y+2)<10) {
+	    if((y+2)<10) {
 		nCheck = 3; }
 	    else nCheck = 1;
 	}
 	else if(nLeft==3) {
-	    if(OtherPlayerHitField.GetContent(x,y-2)>=0) {
+	    if((x-2)>=0) {
 		nCheck = 5; }
 	    else nCheck = 7;
 	}
 	else if(nRight==3) {
-	    if(OtherPlayerHitField.GetContent(x,y-2)<10) {
+	    if((x+2)<10) {
 		nCheck = 7; }
 	    else nCheck = 5;
-	}
+	    }*/
     }
-    else { }
+    else if(size==2) { }
+    else if(size==1) { }
 
     return nCheck;
 }

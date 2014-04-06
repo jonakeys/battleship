@@ -13,7 +13,7 @@ void DrawScreen(Field& Player1Field, Field& Player2Field)
     cout << "\t Speler 1\t\t\t\t\t       Speler 2\n"
 	 << "\t ________________________________________\t       ________________________________________\n"
 	 << "\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl
-	 << "\t|      a  b  c  d  e  f  g  h  i  j      |\t      |     a  b  c  d  e  f  g  h  i  j       |" << endl 
+	 << "\t|      a  b  c  d  e  f  g  h  i  j      |\t      |      a  b  c  d  e  f  g  h  i  j      |" << endl 
 	 << "\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl
 	 << "\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl;
 
@@ -26,7 +26,7 @@ void DrawScreen(Field& Player1Field, Field& Player2Field)
 	     <<"\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl;
     }
     cout << "\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl
-	 << "\t|      a  b  c  d  e  f  g  h  i  j      |\t      |     a  b  c  d  e  f  g  h  i  j       |" << endl 
+	 << "\t|      a  b  c  d  e  f  g  h  i  j      |\t      |      a  b  c  d  e  f  g  h  i  j      |" << endl 
 	 << "\t|________________________________________|\t      |________________________________________|\n\n" << endl;
 }	
       
