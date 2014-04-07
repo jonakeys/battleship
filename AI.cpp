@@ -28,8 +28,7 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 			    i += nI;
 			    if((j+nJ)<10) {
 				j += nJ;
-				if(((OtherPlayerHitField.GetContent(i,j) > 1) && (OtherPlayerHitField.GetContent(i,j) < 5)) &&
-				   xAdj==-1) {
+				if((OtherPlayerHitField.GetContent(i,j) > 1) && (OtherPlayerHitField.GetContent(i,j) < 5)) {
 				    nContent = OtherPlayerHitField.GetContent(i,j);
 				    if((i+1)<10) { nContentNext0 = OtherPlayerHitField.GetContent(i+1,j); }
 				    else nContentNext0 = OtherPlayerHitField.GetContent(i,j);
@@ -39,10 +38,10 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 				    else nContentNext2 = OtherPlayerHitField.GetContent(i,j);
 				    if((j-1)>=0) {nContentNext3 = OtherPlayerHitField.GetContent(i,j-1); }
 				    else nContentNext3 = OtherPlayerHitField.GetContent(i,j);
-				    if( (nContentNext0 == 0) || (nContentNext1 == 0)
-					||(nContentNext2 == 0) || (nContentNext3 == 0) ) {
-					if( ( CheckReady(OtherPlayerHitField,i,j,OtherPlayerHitField.GetContent(i,j)) == 0 ) ) {
-					    if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 0) {
+				    if(( (nContentNext0 == 0) || (nContentNext1 == 0)
+					 ||(nContentNext2 == 0) || (nContentNext3 == 0))) {
+					if( ( CheckReady(OtherPlayerHitField,i,j,OtherPlayerHitField.GetContent(i,j)) == 0 ) && xAdj==-1) {
+					    if((CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 0)) {
 						xAdj = i;
 						yAdj = j;
 					    }
@@ -473,7 +472,7 @@ int CheckRow(int size, int x, int y, Field& OtherPlayerHitField)
 	
     }
     else if(size==3) {
-/*	if(nUp==3) {
+	if(nUp==3) {
 	    if((y-2)>=0) {
 		nCheck = 1; }
 	    else nCheck = 3;
@@ -492,7 +491,7 @@ int CheckRow(int size, int x, int y, Field& OtherPlayerHitField)
 	    if((x+2)<10) {
 		nCheck = 7; }
 	    else nCheck = 5;
-	    }*/
+	}
     }
     else if(size==2) { }
     else if(size==1) { }
