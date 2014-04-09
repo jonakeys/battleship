@@ -19,7 +19,7 @@ int main()
     Field P1Field, P2Field; // Player fields
     Field P1HitField, P2HitField; // Fields to keep track of hits or misses
     bool PLAY = true, GO = true, DONE = false;
-    int nTurn = 0, P1Counter = 20, P2Counter = 20; // nTurn counts turns, Counters deduct points from 20; if 0 all ships are destroyed
+    int nTurn = 0, nTurn1 = 0, nTurn2 = 0, P1Counter = 20, P2Counter = 20; // nTurn counts turns, Counters deduct points from 20; if 0 all ships are destroyed
     string player1, player2;
     int nChoice, nGuess;
     ofstream statsFile;
@@ -103,6 +103,7 @@ int main()
 			cout << player1 << " schoot raak :-)\n\n";
 		    else
 			cout << player1 << " schoot mis :-(\n\n";
+		    ++nTurn1;
 		}
 		// Player 2 turn
 		if(nTurn % 2 != 0) {
@@ -118,6 +119,7 @@ int main()
 			cout << player2 << " schoot raak :-)\n\n";
 		    else
 			cout << player2 << " schoot mis :-(\n\n";
+		    ++nTurn2;
 		}
 		if(P1Counter == 0 || P2Counter == 0) { // When one counter reaches zero, the game is won
 		    PLAY = false;
@@ -127,22 +129,22 @@ int main()
     
 	    if(P1Counter == 0) {
 		cout << player1 << " heeft gewonnen!\n";
+		cout << "Je hebt er " << nTurn1 << " beurten over gedaan.\n\n";
 		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
 		statsFile << player1 << " heeft gewonnen.\n"
 			  << "De tegenstander was: " << player2 << ".\n"
-			  << player1 << " heeft er " << nTurn/2 << " beurten over gedaan.\n";
+			  << player1 << " heeft er " << nTurn1 << " beurten over gedaan.\n";
 		statsFile.close();
 	    }
 	    else if(P2Counter == 0) {
 		cout << player2 << " heeft gewonnen!\n";
+		cout << "Je hebt er " << nTurn2 << " beurten over gedaan.\n\n";
 		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
 		statsFile << player2 << " heeft gewonnen.\n"
 			  << "De tegenstander was: " << player1 << ".\n"
-			  << player2 << " heeft er " << nTurn/2 << " beurten over gedaan.\n";
+			  << player2 << " heeft er " << nTurn2 << " beurten over gedaan.\n";
 		statsFile.close();
-
 	    }
-	    cout << "Je hebt er " << nTurn/2 << " beurten over gedaan.\n\n";
 	    cin.ignore();
 	}
 

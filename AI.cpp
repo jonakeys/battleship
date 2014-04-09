@@ -12,10 +12,10 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
     int x, y;
     int xAdj = -1, yAdj = -1, nDir;
     bool TRY = true, ADJACENT = true, NDIROK = true, RANDNUM = true;
-    int nContent, nContentNext0=0, nContentNext1=0, nContentNext2=0, nContentNext3=0;
+    int nContent, nContentNext0=1, nContentNext1=1, nContentNext2=1, nContentNext3=1;
+    int nGetContent;
     int nCheckShip, nCheckShip2;
     int nI = 0, nJ = 0;
-    int nSign;
       
     srand(time(NULL));
     
@@ -28,98 +28,93 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 			    i += nI;
 			    if((j+nJ)<10) {
 				j += nJ;
-				if((OtherPlayerHitField.GetContent(i,j) > 1) && (OtherPlayerHitField.GetContent(i,j) < 5)) {
-				    nContent = OtherPlayerHitField.GetContent(i,j);
+				nGetContent = OtherPlayerHitField.GetContent(i,j);
+				if((nGetContent > 1) && (nGetContent < 5) && xAdj<0) {
 				    if((i+1)<10) { nContentNext0 = OtherPlayerHitField.GetContent(i+1,j); }
-				    else nContentNext0 = OtherPlayerHitField.GetContent(i,j);
-				    if((j+1)<10) { nContentNext1 = OtherPlayerHitField.GetContent(i,j+1);  }
-				    else nContentNext1 = OtherPlayerHitField.GetContent(i,j);
+				    if((j+1)<10) { nContentNext1 = OtherPlayerHitField.GetContent(i,j+1); }
 				    if((i-1)>=0) {nContentNext2 = OtherPlayerHitField.GetContent(i-1,j); }
-				    else nContentNext2 = OtherPlayerHitField.GetContent(i,j);
 				    if((j-1)>=0) {nContentNext3 = OtherPlayerHitField.GetContent(i,j-1); }
-				    else nContentNext3 = OtherPlayerHitField.GetContent(i,j);
-				    if(( (nContentNext0 == 0) || (nContentNext1 == 0)
-					 ||(nContentNext2 == 0) || (nContentNext3 == 0))) {
-					if( ( CheckReady(OtherPlayerHitField,i,j,OtherPlayerHitField.GetContent(i,j)) == 0 ) && xAdj==-1) {
+				    
+				    if(((nContentNext0 == 0) || (nContentNext1 == 0) ||(nContentNext2 == 0) || (nContentNext3 == 0))) {
+					if(( CheckReady(OtherPlayerHitField,i,j,nGetContent) == 0 )) {
 					    if((CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 0)) {
-						xAdj = i;
-						yAdj = j;
+						xAdj = i; yAdj = j;
 					    }
 					    // Up
-					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 1) {
-						xAdj = i;
-						yAdj = j-2;
-						if(OtherPlayerField.GetContent(i,j-2)!=7) {
-						    OtherPlayerHitField.SetLocation(i,j-2,OtherPlayerField.GetContent(i,j-2)); }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 1) {
+						xAdj = i; yAdj = j-2;
+						if(OtherPlayerField.GetContent(i,j-2)!=7) { OtherPlayerHitField.SetLocation(i,j-2,OtherPlayerField.GetContent(i,j-2)); }
 						else OtherPlayerHitField.SetLocation(i,j-2,6);
-						NDIROK=false; TRY=false;
-						nGuess = 1;
+						NDIROK=false; TRY=false; nGuess = 1; 
 					    }
-					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 2) {
-						xAdj = i;
-						yAdj = j-3;
-						if(OtherPlayerField.GetContent(i,j-3)!=7) {
-						    OtherPlayerHitField.SetLocation(i,j-3,OtherPlayerField.GetContent(i,j-3)); }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 2) {
+						xAdj = i; yAdj = j-3;
+						if(OtherPlayerField.GetContent(i,j-3)!=7) { OtherPlayerHitField.SetLocation(i,j-3,OtherPlayerField.GetContent(i,j-3)); }
 						else OtherPlayerHitField.SetLocation(i,j-3,6);
-						NDIROK=false; TRY=false;
-						nGuess = 1;
+						NDIROK=false; TRY=false; nGuess = 1;
+					    }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 9) {
+						xAdj = i, yAdj = j-1;
+						if(OtherPlayerField.GetContent(i,j-1)!=7) { OtherPlayerHitField.SetLocation(i,j-1,OtherPlayerField.GetContent(i,j-1)); }
+						else OtherPlayerHitField.SetLocation(i,j-1,6);
+						NDIROK=false; TRY=false; nGuess = 1;
 					    }
 					    // Down
-					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 3) {
-						xAdj = i;
-						yAdj = j+2;
-						if(OtherPlayerField.GetContent(i,j+2)!=7) {
-						    OtherPlayerHitField.SetLocation(i,j+2,OtherPlayerField.GetContent(i,j+2)); }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 3) {
+						xAdj = i; yAdj = j+2;
+						if(OtherPlayerField.GetContent(i,j+2)!=7) { OtherPlayerHitField.SetLocation(i,j+2,OtherPlayerField.GetContent(i,j+2)); }
 						else OtherPlayerHitField.SetLocation(i,j+2,6);
-						NDIROK=false; TRY=false;
-						nGuess = 1;
+						NDIROK=false; TRY=false; nGuess = 1;
 					    }
-					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 4) {
-						xAdj = i;
-						yAdj = j+3;
-						if(OtherPlayerField.GetContent(i,j+3)!=7) {
-						    OtherPlayerHitField.SetLocation(i,j+3,OtherPlayerField.GetContent(i,j+3)); }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 4) {
+						xAdj = i; yAdj = j+3;
+						if(OtherPlayerField.GetContent(i,j+3)!=7) { OtherPlayerHitField.SetLocation(i,j+3,OtherPlayerField.GetContent(i,j+3)); }
 						else OtherPlayerHitField.SetLocation(i,j+3,6);
-						NDIROK=false; TRY=false;
-						nGuess = 1;
+						NDIROK=false; TRY=false; nGuess = 1;
+					    }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 10) {
+						xAdj = i, yAdj = j+1;
+						if(OtherPlayerField.GetContent(i,j+1)!=7) { OtherPlayerHitField.SetLocation(i,j+1,OtherPlayerField.GetContent(i,j+1)); }
+						else OtherPlayerHitField.SetLocation(i,j+1,6);
+						NDIROK=false; TRY=false; nGuess = 1;
 					    }
 					    // Left
-					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 5) {
-						xAdj = i-2;
-						yAdj = j;
-						if(OtherPlayerField.GetContent(i-2,j)!=7) {
-						    OtherPlayerHitField.SetLocation(i-2,j,OtherPlayerField.GetContent(i-2,j)); }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 5) {
+						xAdj = i-2; yAdj = j;
+						if(OtherPlayerField.GetContent(i-2,j)!=7) { OtherPlayerHitField.SetLocation(i-2,j,OtherPlayerField.GetContent(i-2,j)); }
 						else OtherPlayerHitField.SetLocation(i-2,j,6);
-						NDIROK=false; TRY=false;
-						nGuess = 1;
+						NDIROK=false; TRY=false; nGuess = 1;
 					    }
-					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 6) {
-						xAdj = i-3;
-						yAdj = j;
-						if(OtherPlayerField.GetContent(i-3,j)!=7) {
-						    OtherPlayerHitField.SetLocation(i-3,j,OtherPlayerField.GetContent(i-3,j)); }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 6) {
+						xAdj = i-3; yAdj = j;
+						if(OtherPlayerField.GetContent(i-3,j)!=7) { OtherPlayerHitField.SetLocation(i-3,j,OtherPlayerField.GetContent(i-3,j)); }
 						else OtherPlayerHitField.SetLocation(i-3,j,6);
-						NDIROK=false; TRY=false;
-						nGuess = 1;
+						NDIROK=false; TRY=false; nGuess = 1;
+					    }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 11) {
+						xAdj = i-1, yAdj = j;
+						if(OtherPlayerField.GetContent(i-1,j)!=7) { OtherPlayerHitField.SetLocation(i-1,j,OtherPlayerField.GetContent(i-1,j)); }
+						else OtherPlayerHitField.SetLocation(i-1,j,6);
+						NDIROK=false; TRY=false; nGuess = 1;
 					    }
 					    // Right
-					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 7) {
-						xAdj = i+2;
-						yAdj = j;
-						if(OtherPlayerField.GetContent(i+2,j)!=7) {
-						    OtherPlayerHitField.SetLocation(i+2,j,OtherPlayerField.GetContent(i+2,j)); }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 7) {
+						xAdj = i+2; yAdj = j;
+						if(OtherPlayerField.GetContent(i+2,j)!=7) { OtherPlayerHitField.SetLocation(i+2,j,OtherPlayerField.GetContent(i+2,j)); }
 						else OtherPlayerHitField.SetLocation(i+2,j,6);
-						NDIROK=false; TRY=false;
-						nGuess = 1;
+						NDIROK=false; TRY=false; nGuess = 1;
 					    }
-					    else if(CheckRow(OtherPlayerHitField.GetContent(i,j),i,j,OtherPlayerHitField) == 8) {
-						xAdj = i+3;
-						yAdj = j;
-						if(OtherPlayerField.GetContent(i+3,j)!=7) {
-						    OtherPlayerHitField.SetLocation(i+3,j,OtherPlayerField.GetContent(i+3,j)); }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 8) {
+						xAdj = i+3; yAdj = j;
+						if(OtherPlayerField.GetContent(i+3,j)!=7) { OtherPlayerHitField.SetLocation(i+3,j,OtherPlayerField.GetContent(i+3,j)); }
 						else OtherPlayerHitField.SetLocation(i+3,j,6);
-						NDIROK=false; TRY=false;
-						nGuess = 1;
+						NDIROK=false; TRY=false; nGuess = 1;
+					    }
+					    else if(CheckRow(nGetContent,i,j,OtherPlayerHitField) == 12) {
+						xAdj = i+1, yAdj = j;
+						if(OtherPlayerField.GetContent(i+1,j)!=7) { OtherPlayerHitField.SetLocation(i+1,j,OtherPlayerField.GetContent(i+1,j)); }
+						else OtherPlayerHitField.SetLocation(i+1,j,6);
+						NDIROK=false; TRY=false; nGuess = 1;
 					    }
 					}
 				    }
@@ -144,12 +139,8 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 					if((yAdj-1)>=0) {
 					    if(nCheckShip2!=7)OtherPlayerHitField.SetLocation(xAdj,yAdj-1,OtherPlayerField.GetContent(xAdj,yAdj-1));
 					    else { OtherPlayerHitField.SetLocation(xAdj,yAdj-1,6); }
-					    TRY = false;
-					    NDIROK = false;
-					    ADJACENT = false;
-					    if((nCheckShip>=1) && (nCheckShip<5)) {
-						nGuess = 1;
-					    }
+					    TRY = false; NDIROK = false; ADJACENT = false;
+					    if((nCheckShip>=1) && (nCheckShip<5)) { nGuess = 1; }
 					}
 				    }
 				    count[0] = 1;
@@ -162,12 +153,8 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 					if((yAdj+1)<10) {
 					    if(nCheckShip2!=7) OtherPlayerHitField.SetLocation(xAdj,yAdj+1,OtherPlayerField.GetContent(xAdj,yAdj+1));
 					    else { OtherPlayerHitField.SetLocation(xAdj,yAdj+1,6); }
-					    TRY = false;
-					    NDIROK = false;
-					    ADJACENT = false;
-					    if((nCheckShip>=1) && (nCheckShip<5)) {
-						nGuess = 1;
-					    }
+					    TRY = false; NDIROK = false; ADJACENT = false;
+					    if((nCheckShip>=1) && (nCheckShip<5)) { nGuess = 1; }
 					}
 				    }
 				    count[1] = 1;
@@ -180,12 +167,8 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 					if((xAdj-1)>=0) {
 					    if(nCheckShip2!=7) OtherPlayerHitField.SetLocation(xAdj-1,yAdj,OtherPlayerField.GetContent(xAdj-1,yAdj));
 					    else { OtherPlayerHitField.SetLocation(xAdj-1,yAdj,6); }
-					    TRY = false;
-					    NDIROK = false;
-					    ADJACENT = false;
-					    if((nCheckShip>=1) && (nCheckShip<5)) {
-						nGuess = 1;
-					    }
+					    TRY = false; NDIROK = false; ADJACENT = false;
+					    if((nCheckShip>=1) && (nCheckShip<5)) { nGuess = 1; }
 					}
 				    }
 				    count[2] = 1;
@@ -198,12 +181,8 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 					if((xAdj+1)<10) {
 					    if(nCheckShip2!=7) OtherPlayerHitField.SetLocation(xAdj+1,yAdj,OtherPlayerField.GetContent(xAdj+1,yAdj));
 					    else { OtherPlayerHitField.SetLocation(xAdj+1,yAdj,6); }
-					    TRY = false;
-					    NDIROK = false;
-					    ADJACENT = false;
-					    if((nCheckShip>=1) && (nCheckShip<5)) {
-						nGuess = 1;
-					    }
+					    TRY = false; NDIROK = false; ADJACENT = false;
+					    if((nCheckShip>=1) && (nCheckShip<5)) { nGuess = 1; }
 					}
 				    }
 				    count[3] = 1;
@@ -233,8 +212,8 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 		RANDNUM = false;
 	    }
 	}
+
 	nContent = OtherPlayerField.GetContent(x,y);
-	
 	if(nContent > 0 && nContent < 5) {
 	    OtherPlayerHitField.SetLocation(x, y, nContent);
 	    nGuess = 1;
@@ -453,47 +432,74 @@ int CheckRow(int size, int x, int y, Field& OtherPlayerHitField)
     int nCheck = 0;
     int nUp = OtherPlayerHitField.GetContent(x,y-1);
     int nUp2 = OtherPlayerHitField.GetContent(x,y-2);
+    int nUp3 = OtherPlayerHitField.GetContent(x,y-3);
     int nDown = OtherPlayerHitField.GetContent(x,y+1);
     int nDown2 = OtherPlayerHitField.GetContent(x,y+2);
+    int nDown3 = OtherPlayerHitField.GetContent(x,y+3);
     int nLeft = OtherPlayerHitField.GetContent(x-1,y);
     int nLeft2 = OtherPlayerHitField.GetContent(x-2,y);
+    int nLeft3 = OtherPlayerHitField.GetContent(x-3,y);
     int nRight = OtherPlayerHitField.GetContent(x+1,y);
     int nRight2 = OtherPlayerHitField.GetContent(x+2,y);
-
-    if(size==4) {
-/*	if(nUp==4) nCheck = 1;
-	else if((nUp==4) && (nUp2==4)) nCheck = 2;
-	else if(nDown==4) nCheck = 3;
-	else if((nDown==4) && (nDown2==4)) nCheck = 4;
-	else if(nLeft==4) nCheck = 5;
-	else if((nLeft==4) && (nLeft2==4)) nCheck = 6;
-	else if(nRight==4) nCheck = 7;
-	else if((nRight==4) && (nRight2==4)) nCheck = 8;*/
+    int nRight3 = OtherPlayerHitField.GetContent(x+3,y);
 	
+    // If size of ship is 4, find it's direction
+    if(size==4) {
+	if(nUp==4) {
+	    if(((y-2)>=0) && nUp2==0) { nCheck = 1; }
+	    else if(nDown==0) nCheck = 10;
+	}
+	else if((nUp==4) && (nUp2==4)) {
+	    if(((y-3)>=0) && nUp3==0) { nCheck = 2; }
+	    else if(nDown==0) nCheck = 10;
+	}
+	else if(nDown==4) {
+	    if(((y+2)<10) && nDown2==0) { nCheck = 3; }
+	    else if(nUp==0) nCheck = 9;
+	}
+	else if((nDown==4) && (nDown2==4)) {
+	    if(((y+3)<10) && nDown3==0) { nCheck = 4; }
+	    else if(nUp==0) nCheck = 9;
+	}
+	else if(nLeft==4) {
+	    if(((x-2)>=0) && nLeft2==0) { nCheck = 5; }
+	    else if(nRight==0) nCheck = 12;
+	}
+	else if((nLeft==4) && (nLeft2==4)) {
+	    if(((x-3)>=0) && nLeft3==0) { nCheck = 6; }
+	    else if(nRight==0) nCheck = 12;
+	}
+	else if(nRight==4) {
+	    if(((x+2)<10) && nRight2==0) { nCheck = 7; }
+	    else if(nLeft==0) nCheck = 11;
+	}
+	else if((nRight==4) && (nRight2==4)) {
+	    if(((x+3)<10) && nRight3==0) { nCheck = 8;}
+	    else if(nLeft==0) nCheck = 11;
+	}
     }
+    // If size of ship is 3, find it's direction
     else if(size==3) {
 	if(nUp==3) {
-	    if((y-2)>=0) {
-		nCheck = 1; }
-	    else nCheck = 3;
+	    if(((y-2)>=0) && nUp2==0) { nCheck = 1; }
+	    else if(nDown==0) nCheck = 10;
 	}
 	else if(nDown==3) {
-	    if((y+2)<10) {
-		nCheck = 3; }
-	    else nCheck = 1;
+	    if(((y+2)<10) && nDown2==0) { nCheck = 3; }
+	    else if(nUp==0) nCheck = 9;
 	}
 	else if(nLeft==3) {
-	    if((x-2)>=0) {
-		nCheck = 5; }
-	    else nCheck = 7;
+	    if(((x-2)>=0) && nLeft2==0) { nCheck = 5; }
+	    else if(nRight==0) nCheck = 12;
 	}
 	else if(nRight==3) {
-	    if((x+2)<10) {
-		nCheck = 7; }
-	    else nCheck = 5;
+	    if(((x+2)<10) && nRight2==0) { nCheck = 7; }
+	    else if(nLeft==0) nCheck = 11;
 	}
     }
+    // If size of ship is 2 do nothing, just try for locations around x and y
     else if(size==2) { }
+    // If size of ship is 1 do nothing, ship is destroyed
     else if(size==1) { }
 
     return nCheck;
