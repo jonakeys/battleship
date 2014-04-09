@@ -99,6 +99,9 @@ int main()
 		    nGuess = Guess(nTurn, P2Field, P2HitField, player1); // Guess returns 1 if hit
 		    P1Counter -= nGuess;
 		    DrawScreen(P2HitField, P1HitField);
+		    cout << "Resterend aantal treffers: " << endl
+			 << player1 << ": " << P1Counter << "/20" << endl
+			 << player2 << ": " << P2Counter << "/20" << endl << endl;
 		    if(nGuess==1)
 			cout << player1 << " schoot raak :-)\n\n";
 		    else
@@ -115,6 +118,9 @@ int main()
 		    }
 		    P2Counter -= nGuess;
 		    DrawScreen(P2HitField, P1HitField);
+		    cout << "Resterend aantal treffers: " << endl
+			 << player1 << ": " << P1Counter << "/20" << endl
+			 << player2 << ": " << P2Counter << "/20" << endl << endl;
 		    if(nGuess==1)
 			cout << player2 << " schoot raak :-)\n\n";
 		    else
