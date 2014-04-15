@@ -1,6 +1,6 @@
 #include <stdlib.h>
-#include "Draw.h"
-#include "Field.h"
+#include "../headers/Draw.h"
+#include "../headers/Field.h"
 
 #include <iostream>
 using namespace std;

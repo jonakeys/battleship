@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
-#include "AI.h"
+#include "../headers/AI.h"
 using namespace std;
 
 // AI guesses a location. If it finds a ship at the location, it will search in all directions for another piece

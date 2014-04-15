@@ -1,29 +1,31 @@
 CC=g++
 CFLAGS=-c -Wall
+SRCDIR=src
+BUILDDIR=build
 
 all: main
 
 main: main.o Field.o Ship.o Draw.o Loc.o AI.o
 	$(CC) main.o Field.o Ship.o Draw.o Loc.o AI.o -o battleship
 
-main.o: main.cpp
-	$(CC) $(CFLAGS) main.cpp
+main.o: $(SRCDIR)/main.cpp
+	$(CC) $(CFLAGS) $(SRCDIR)/main.cpp
 
-Field.o: Field.cpp
-	$(CC) $(CFLAGS) Field.cpp
+Field.o: $(SRCDIR)/Field.cpp
+	$(CC) $(CFLAGS) $(SRCDIR)/Field.cpp
 
-Ship.o: Ship.cpp
-	$(CC) $(CFLAGS) Ship.cpp
+Ship.o: $(SRCDIR)/Ship.cpp
+	$(CC) $(CFLAGS) $(SRCDIR)/Ship.cpp
 
-Draw.o: Draw.cpp
-	$(CC) $(CFLAGS) Draw.cpp
+Draw.o: $(SRCDIR)/Draw.cpp
+	$(CC) $(CFLAGS) $(SRCDIR)/Draw.cpp
 
-Loc.o: Loc.cpp
-	$(CC) $(CFLAGS) Loc.cpp
+Loc.o: $(SRCDIR)/Loc.cpp
+	$(CC) $(CFLAGS) $(SRCDIR)/Loc.cpp
 
-AI.o: AI.cpp
-	$(CC) $(CFLAGS) AI.cpp
+AI.o: $(SRCDIR)/AI.cpp
+	$(CC) $(CFLAGS) $(SRCDIR)/AI.cpp
 
 clean:
-	rm -rf *.o battleship
+	rm -rf $(BUILDDIR)/*.o battleship
  

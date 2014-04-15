@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <string>
 #include <vector>
-#include "Field.h"
-#include "Ship.h"
-#include "Draw.h"
-#include "AI.h"
+#include "../headers/Field.h"
+#include "../headers/Ship.h"
+#include "../headers/Draw.h"
+#include "../headers/AI.h"
 using namespace std;
 
 void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int player, string playerName);
@@ -35,6 +35,10 @@ int main()
     ShipsToVector(vP2Ships, P2Battleship, P2Cruiser1, P2Cruiser2, P2TorpedoBoat1, P2TorpedoBoat2,
 		  P2TorpedoBoat3, P2Submarine1, P2Submarine2, P2Submarine3, P2Submarine4);
 
+    statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
+    statsFile << "---- BEGIN LOGBESTAND ----\n";
+    statsFile.close();
+    
     while(GO)
     {
 	DONE = false;
@@ -139,7 +143,7 @@ int main()
 		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
 		statsFile << player1 << " heeft gewonnen.\n"
 			  << "De tegenstander was: " << player2 << ".\n"
-			  << player1 << " heeft er " << nTurn1 << " beurten over gedaan.\n";
+			  << player1 << " heeft er " << nTurn1 << " beurten over gedaan.\n\n";
 		statsFile.close();
 	    }
 	    else if(P2Counter == 0) {
@@ -148,7 +152,7 @@ int main()
 		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
 		statsFile << player2 << " heeft gewonnen.\n"
 			  << "De tegenstander was: " << player1 << ".\n"
-			  << player2 << " heeft er " << nTurn2 << " beurten over gedaan.\n";
+			  << player2 << " heeft er " << nTurn2 << " beurten over gedaan.\n\n";
 		statsFile.close();
 	    }
 	    cin.ignore();
@@ -156,7 +160,8 @@ int main()
 
 	else if(nChoice == 3) {
 	    statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
-	    statsFile << "Zeeslag is afgesloten.\n\n";
+	    statsFile << "Zeeslag is afgesloten.\n"
+		      << "---- EINDE LOGBESTAND ----\n\n";
 	    statsFile.close();
 	    GO = false;
 	}
