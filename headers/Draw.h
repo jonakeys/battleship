@@ -7,5 +7,6 @@
 void DrawScreen(Field& Player1Field, Field& Player2Field);
 void DrawTitle();
 void DrawField(Field& DrawField, int row);
+void DrawRemainingShips();
 
 #endif

@@ -70,7 +70,7 @@ char Ship::GetDirection()
 // Create a ship
 // @param PlayerShip Choose ship to place
 // @param PutField Field to place the ship
-void CreateShip(Ship& PlayerShip, int size, Field& PutField)
+void CreateShip(Ship& PlayerShip, int size, Field& PutField, Field& RemainField)
 {
     int x, y;
     char cX;

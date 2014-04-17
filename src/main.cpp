@@ -10,7 +10,7 @@
 #include "../headers/AI.h"
 using namespace std;
 
-void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int player, string playerName);
+void PlaceShips(Field& PutField, Field& Put2Field, Field& RemainField, vector <Ship>& vShips, int player, string playerName);
 void DrawShipsRemaining(vector <Ship>& vShips);
 int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string playerName);
 
@@ -18,6 +18,7 @@ int main()
 {
     Field P1Field, P2Field; // Player fields
     Field P1HitField, P2HitField; // Fields to keep track of hits or misses
+    Field P1RemainField, P2RemainField;
     bool PLAY = true, GO = true, DONE = false;
     int nTurn = 0, nTurn1 = 0, nTurn2 = 0, P1Counter = 20, P2Counter = 20; // nTurn counts turns, Counters deduct points from 20; if 0 all ships are destroyed
     string player1, player2;
@@ -43,20 +44,20 @@ int main()
     {
 	DONE = false;
 	DrawTitle();
-	cout << "ZEESLAG\n\n"
-	     << "Zeeslag is een spel waarbij je strijdt om de macht op de zee. Het is de bedoeling om de schepen \n"
-	     << "van je tegenstander te vinden en tot zinken te brengen.\n"
-	     << "Het spel begint met het plaatsen van de schepen op het speelveld. Daarna mag je om de beurt een \n"
-	     << "schot afvuren. Als het raak is, zie je het nummer van het schip. Als het mis is zie je een 'M'.\n\n"
-	     << "Bij het plaatsen mogen de schepen alleen horizontaal en verticaal geplaatst worden. Ook mogen ze \n"
-	     << "elkaar niet raken.\n\n"
-	     << "Veel plezier gewenst!\n- Jonathan\n\n"
-	     << "HOOFDMENU\n"
-	     << "1) Speler tegen speler\n"
-	     << "2) Speler tegen computer\n"
-	     << "3) Stoppen\n";
+	cout << "\tZEESLAG\n\n"
+	     << "\tZeeslag is een spel waarbij je strijdt om de macht op de zee. Het doel\n"
+	     << "\tis om de schepen van je tegenstander te vinden en tot zinken te brengen.\n"
+	     << "\tHet spel begint met het plaatsen van de schepen op het speelveld. Daarna\n"
+	     << "\tmag je om de beurt een schot afvuren. Als je raakt, zie je het nummer\n"
+	     << "\tvan het schip. Als je mist, zie je een 'm'. De schepen mogen alleen\n"
+	     << "\thorizontaal en verticaal geplaatst worden. Ook mogen ze elkaar niet raken.\n\n"
+	     << "\tVeel plezier gewenst!\n\t- Jonathan\n\n"
+	     << "\t\tHOOFDMENU\n"
+	     << "\t\t1) Speler tegen speler\n"
+	     << "\t\t2) Speler tegen computer\n"
+	     << "\t\t3) Stoppen\n";
 	    while(!DONE) {
-		cout << "Maak je keuze (1-3): ";
+		cout << "\n\tMaak je keuze (1-3): ";
 		cin >> nChoice;
 		if(0 < nChoice && nChoice < 4)
 		    DONE = true;
@@ -81,14 +82,16 @@ int main()
 	    P2Field.Create();
 	    P1HitField.Create();
 	    P2HitField.Create();
+	    P1RemainField.Create();
+	    P2RemainField.Create();
 
 	    // Print the fields to the screen
 	    // Players setup their ships on the field
 	    DrawScreen(P1Field, P2Field);
-	    PlaceShips(P1Field, P2Field, vP1Ships, 1, player1);
+	    PlaceShips(P1Field, P2Field, P1RemainField, vP1Ships, 1, player1);
 	    DrawScreen(P1HitField, P2Field);
 	    if(nChoice == 1) {
-		PlaceShips(P1HitField, P2Field, vP2Ships, 2, player2);
+		PlaceShips(P1HitField, P2Field, P2RemainField, vP2Ships, 2, player2);
 	    }
 	    else if(nChoice == 2) {
 		AIPlaceShips(P2Field, vP2Ships);
@@ -173,90 +176,90 @@ int main()
 }
 
 // Player puts their ships on the field
-void PlaceShips(Field& PutField, Field& Put2Field, vector <Ship>& vShips, int player, string playerName)
+void PlaceShips(Field& PutField, Field& Put2Field, Field& RemainField, vector <Ship>& vShips, int player, string playerName)
 {
     if(player == 1) {
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats slagschip (4 4 4 4)\n";
-	CreateShip(vShips.at(0), 4, PutField);
+	CreateShip(vShips.at(0), 4, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats kruiser (3 3 3) (1/2)\n";
-	CreateShip(vShips.at(1), 3, PutField);
+	CreateShip(vShips.at(1), 3, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats kruiser (3 3 3) (2/2)\n";
-	CreateShip(vShips.at(2), 3, PutField);
+	CreateShip(vShips.at(2), 3, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (1/3)\n";
-	CreateShip(vShips.at(3), 2, PutField);
+	CreateShip(vShips.at(3), 2, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (2/3)\n";
-	CreateShip(vShips.at(4), 2, PutField);
+	CreateShip(vShips.at(4), 2, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (3/3)\n";
-	CreateShip(vShips.at(5), 2, PutField);
+	CreateShip(vShips.at(5), 2, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (1/4)\n";
-	CreateShip(vShips.at(6), 1, PutField);
+	CreateShip(vShips.at(6), 1, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (2/4)\n";
-	CreateShip(vShips.at(7), 1, PutField);
+	CreateShip(vShips.at(7), 1, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (3/4)\n";
-	CreateShip(vShips.at(8), 1, PutField);
+	CreateShip(vShips.at(8), 1, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (4/4)\n";
-	CreateShip(vShips.at(9), 1, PutField);
+	CreateShip(vShips.at(9), 1, PutField, RemainField);
 	DrawScreen(PutField, Put2Field);
     }
     else if(player == 2) {
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats slagschip (4 4 4 4)\n";
-	CreateShip(vShips.at(0), 4, Put2Field);
+	CreateShip(vShips.at(0), 4, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats kruiser (3 3 3) (1/2)\n";
-	CreateShip(vShips.at(1), 3, Put2Field);
+	CreateShip(vShips.at(1), 3, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats kruiser (3 3 3) (2/2)\n";
-	CreateShip(vShips.at(2), 3, Put2Field);
+	CreateShip(vShips.at(2), 3, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (1/3)\n";
-	CreateShip(vShips.at(3), 2, Put2Field);
+	CreateShip(vShips.at(3), 2, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (2/3)\n";
-	CreateShip(vShips.at(4), 2, Put2Field);
+	CreateShip(vShips.at(4), 2, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (3/3)\n";
-	CreateShip(vShips.at(5), 2, Put2Field);
+	CreateShip(vShips.at(5), 2, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (1/4)\n";
-	CreateShip(vShips.at(6), 1, Put2Field);
+	CreateShip(vShips.at(6), 1, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (2/4)\n";
-	CreateShip(vShips.at(7), 1, Put2Field);
+	CreateShip(vShips.at(7), 1, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (3/4)\n";
-	CreateShip(vShips.at(8), 1, Put2Field);
+	CreateShip(vShips.at(8), 1, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (4/4)\n";
-	CreateShip(vShips.at(9), 1, Put2Field);
+	CreateShip(vShips.at(9), 1, Put2Field, RemainField);
 	DrawScreen(PutField, Put2Field);
     }
 }
