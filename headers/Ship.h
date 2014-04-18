@@ -29,7 +29,7 @@ private:
     char cDirection;
 };
 
-void CreateShip(Ship& PlayerShip, int size, Field& PutField, Field& RemainField);
+void CreateShip(Ship& PlayerShip, int size, Field& PutField, Field& RemainField, int nCount);
 void ShipsToVector(vector <Ship>& PutVector, Ship& Battleship, Ship& Cruiser1, Ship& Cruiser2,
 		   Ship& TorpedoBoat1, Ship& TorpedoBoat2, Ship& TorpedoBoat3, Ship& Submarine1,
 		   Ship& Submarine2, Ship& Submarine3, Ship& Submarine4);

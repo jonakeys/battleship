@@ -34,12 +34,12 @@ void DrawScreen(Field& Player1Field, Field& Player2Field)
 void DrawTitle()
 {
     cout << endl
-	 << "\t\t       ____________ ______  _____ _               _____ " << endl
-	 << "\t\t      |___  /  ____|  ____|/ ____| |        /\\   / ____|" << endl
-	 << "\t\t         / /| |__  | |__  | (___ | |       /  \\ | |  __ " << endl
-	 << "\t\t        / / |  __| |  __|  \\___ \\| |      / /\\ \\| | |_ |" << endl
-	 << "\t\t       / /__| |____| |____ ____) | |____ / ____ \\ |__| |" << endl
-	 << "\t\t      /_____|______|______|_____/|______/_/    \\_\\_____|"
+	 << "\t\t\t       ____________ ______  _____ _               _____ " << endl
+	 << "\t\t\t      |___  /  ____|  ____|/ ____| |        /\\   / ____|" << endl
+	 << "\t\t\t         / /| |__  | |__  | (___ | |       /  \\ | |  __ " << endl
+	 << "\t\t\t        / / |  __| |  __|  \\___ \\| |      / /\\ \\| | |_ |" << endl
+	 << "\t\t\t       / /__| |____| |____ ____) | |____ / ____ \\ |__| |" << endl
+	 << "\t\t\t      /_____|______|______|_____/|______/_/    \\_\\_____|"
 	 << endl << endl << endl; 
 }
 
@@ -49,7 +49,123 @@ void DrawField(Field& DrawField, int row)
     DrawField.Draw(row);
 }
 
-void DrawRemainingShips()
+void DrawRemainingShips(Field& RemainFieldP1, Field& RemainFieldP2, string& P1Name, string& P2Name)
 {
+    int nNumber;
+    int nB=0, nC1=0, nC2=0, nT1=0, nT2=0, nT3=0, nS=0;
 
+    cout << "Schepen te gaan:\n";
+
+    for(int i = 0; i<10; ++i) {
+	for(int j = 0; j<10; ++j) {
+	    nNumber = RemainFieldP1.GetContent(i,j);
+	    switch(nNumber) {
+	    case 1:
+		++nB;
+		break;
+	    case 2:
+		++nC1;
+		break;
+	    case 3:
+		++nC2;
+		break;
+	    case 4:
+		++nT1;
+		break;
+	    case 5:
+		++nT2;
+		break;
+	    case 6:
+		++nT3;
+		break;
+	    case 7:
+		++nS;
+		break;
+	    default:
+		break;
+	    }
+	}
+    }
+
+    cout << P1Name << ": ";
+    if(nB>0) cout << "(";
+    for(int i = 0; i<nB; ++i) { cout << "4"; }
+    if(nB>0) cout << ") ";
+    if(nC1>0) cout << "(";
+    for(int i = 0; i<nC1; ++i) { cout << "3"; }
+    if(nC1>0) cout << ") ";
+    if(nC2>0) cout << "(";
+    for(int i = 0; i<nC2; ++i) { cout << "3"; }
+    if(nC2>0) cout << ") ";
+    if(nT1>0) cout << "(";
+    for(int i = 0; i<nT1; ++i) { cout << "2"; }
+    if(nT1>0) cout << ") ";
+    if(nT2>0) cout << "(";
+    for(int i = 0; i<nT2; ++i) { cout << "2"; }
+    if(nT2>0) cout << ") ";
+    if(nT3>0) cout << "(";
+    for(int i = 0; i<nT3; ++i) { cout << "2"; }
+    if(nT3>0) cout << ") ";
+    for(int i = 0; i<nS; ++i) { cout << "(1) "; }
+    cout << endl;
+
+    nB = 0;
+    nC1 = 0;
+    nC2 = 0;
+    nT1 = 0;
+    nT2 = 0;
+    nT3 = 0;
+    nS = 0;
+    for(int i = 0; i<10; ++i) {
+	for(int j = 0; j<10; ++j) {
+	    nNumber = RemainFieldP2.GetContent(i,j);
+	    switch(nNumber) {
+	    case 1:
+		++nB;
+		break;
+	    case 2:
+		++nC1;
+		break;
+	    case 3:
+		++nC2;
+		break;
+	    case 4:
+		++nT1;
+		break;
+	    case 5:
+		++nT2;
+		break;
+	    case 6:
+		++nT3;
+		break;
+	    case 7:
+		++nS;
+		break;
+	    default:
+		break;
+	    }
+	}
+    }
+
+    cout << P2Name << ": ";
+    if(nB>0) cout << "(";
+    for(int i = 0; i<nB; ++i) { cout << "4"; }
+    if(nB>0) cout << ") ";
+    if(nC1>0) cout << "(";
+    for(int i = 0; i<nC1; ++i) { cout << "3"; }
+    if(nC1>0) cout << ") ";
+    if(nC2>0) cout << "(";
+    for(int i = 0; i<nC2; ++i) { cout << "3"; }
+    if(nC2>0) cout << ") ";
+    if(nT1>0) cout << "(";
+    for(int i = 0; i<nT1; ++i) { cout << "2"; }
+    if(nT1>0) cout << ") ";
+    if(nT2>0) cout << "(";
+    for(int i = 0; i<nT2; ++i) { cout << "2"; }
+    if(nT2>0) cout << ") ";
+    if(nT3>0) cout << "(";
+    for(int i = 0; i<nT3; ++i) { cout << "2"; }
+    if(nT3>0) cout << ") ";
+    for(int i = 0; i<nS; ++i) { cout << "(1) "; }
+    cout << endl << endl;
 }

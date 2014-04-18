@@ -70,7 +70,7 @@ char Ship::GetDirection()
 // Create a ship
 // @param PlayerShip Choose ship to place
 // @param PutField Field to place the ship
-void CreateShip(Ship& PlayerShip, int size, Field& PutField, Field& RemainField)
+void CreateShip(Ship& PlayerShip, int size, Field& PutField, Field& RemainField, int nCount)
 {
     int x, y;
     char cX;
@@ -247,8 +247,33 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField, Field& RemainField)
 	if(((x+size)<10) && ((y+1)<10)) PutField.SetLocation(x+size,y+1,7);
 	break;
     }
+    
+/* 1 = battleship, 2 = cruiser1, 3 = cruiser2, 4 = torpedoboat1, 5 = torpedoboat2
+   6 = torpedoboat3, 7 = submarines */
+    switch(direction) {
+    case 'b':
+	for(int j = 0; j<size; ++j) {
+	    RemainField.SetLocation(x,y-j,nCount);
+	}
+	break;
+    case 'o':
+	for(int j = 0; j<size; ++j) {
+	    RemainField.SetLocation(x,y+j,nCount);
+	}
+	break;
+    case 'l':
+	for(int j = 0; j<size; ++j) {
+	    RemainField.SetLocation(x-j,y,nCount);
+	}
+	break;
+    case 'r':
+	for(int j = 0; j<size; ++j) {
+	    RemainField.SetLocation(x+j,y,nCount);
+	}
+	break;
+    }
 }
-
+    
 // Put ships in a vector
 void ShipsToVector(vector <Ship>& PutVector, Ship& Battleship, Ship& Cruiser1, Ship& Cruiser2,
 		   Ship& TorpedoBoat1, Ship& TorpedoBoat2, Ship& TorpedoBoat3, Ship& Submarine1,

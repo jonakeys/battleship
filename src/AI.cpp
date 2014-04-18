@@ -12,7 +12,7 @@ using namespace std;
 // @param OtherPlayerHitField The other player's field which tracks the guesses
 // @param playerName The player's name
 // @param return Returns 1 if the guess is a hit
-int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string playerName)
+int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string playerName, Field& OtherPlayerRemainField)
 {
     int nGuess = 0;
     int x, y;
@@ -243,7 +243,11 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 	    ++nI;
 	    nJ = 0;
 	} 
-	if(nI==10) ADJACENT = false; // When all iterations are run, stop thinking smart and move on to the random location guessing
+	if(nI==10) {
+	    ADJACENT = false; // When all iterations are run, stop thinking smart and move on to the random location guessing
+	    x=xAdj;
+	    y=yAdj;
+	}
     }
     
     while(TRY) {
@@ -269,6 +273,8 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 	    TRY = false;
 	}
     }
+
+    OtherPlayerRemainField.SetLocation(x,y,0);
     
     return nGuess;
 }
@@ -276,25 +282,32 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 // AI places it's ships on the playing field
 // @param PutField Field to put the ships on (usually the playing field)
 // @param vShips All ships of the AI in a vector
-void AIPlaceShips(Field& PutField, vector <Ship>& vShips)
+void AIPlaceShips(Field& PutField, vector <Ship>& vShips, Field& RemainField)
 {
-    AICreateShip(vShips.at(0), 4, PutField);
-    AICreateShip(vShips.at(1), 3, PutField);
-    AICreateShip(vShips.at(2), 3, PutField);    
-    AICreateShip(vShips.at(3), 2, PutField);
-    AICreateShip(vShips.at(4), 2, PutField);
-    AICreateShip(vShips.at(5), 2, PutField);
-    AICreateShip(vShips.at(6), 1, PutField);
-    AICreateShip(vShips.at(7), 1, PutField);
-    AICreateShip(vShips.at(8), 1, PutField);
-    AICreateShip(vShips.at(9), 1, PutField);
+    int nCount = 1;
+    AICreateShip(vShips.at(0), 4, PutField, RemainField, nCount);
+    ++nCount;
+    AICreateShip(vShips.at(1), 3, PutField, RemainField, nCount);
+    ++nCount;
+    AICreateShip(vShips.at(2), 3, PutField, RemainField, nCount);
+    ++nCount;
+    AICreateShip(vShips.at(3), 2, PutField, RemainField, nCount);
+    ++nCount;
+    AICreateShip(vShips.at(4), 2, PutField, RemainField, nCount);
+    ++nCount;
+    AICreateShip(vShips.at(5), 2, PutField, RemainField, nCount);
+    ++nCount;
+    AICreateShip(vShips.at(6), 1, PutField, RemainField, nCount);
+    AICreateShip(vShips.at(7), 1, PutField, RemainField, nCount);
+    AICreateShip(vShips.at(8), 1, PutField, RemainField, nCount);
+    AICreateShip(vShips.at(9), 1, PutField, RemainField, nCount);
 }
 
 // Creation of a ship and place it onto the field
 // @param AIShip Ship to create and place
 // @param size Size of the ship
 // @param PutField Field to put the ship on
-void AICreateShip(Ship& AIShip, int size, Field& PutField)
+void AICreateShip(Ship& AIShip, int size, Field& PutField, Field& RemainField, int nCount)
 {
     int x, y; // Coordinates
     char cDirection; // Char with direction (b,o,l,r)
@@ -429,6 +442,29 @@ void AICreateShip(Ship& AIShip, int size, Field& PutField)
 	if((x+size)<10) PutField.SetLocation(x+size,y,7);
 	if(((x+size)<10) && ((y-1)>=0)) PutField.SetLocation(x+size,y-1,7);
 	if(((x+size)<10) && ((y+1)<10)) PutField.SetLocation(x+size,y+1,7);
+	break;
+    }
+    
+    switch(cDirection) {
+    case 'b':
+	for(int j = 0; j<size; ++j) {
+	    RemainField.SetLocation(x,y-j,nCount);
+	}
+	break;
+    case 'o':
+	for(int j = 0; j<size; ++j) {
+	    RemainField.SetLocation(x,y+j,nCount);
+	}
+	break;
+    case 'l':
+	for(int j = 0; j<size; ++j) {
+	    RemainField.SetLocation(x-j,y,nCount);
+	}
+	break;
+    case 'r':
+	for(int j = 0; j<size; ++j) {
+	    RemainField.SetLocation(x+j,y,nCount);
+	}
 	break;
     }
 }
