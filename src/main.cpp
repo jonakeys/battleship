@@ -140,18 +140,20 @@ int main()
 		cout << player1 << " heeft gewonnen!\n";
 		cout << "Je hebt er " << nTurn1 << " beurten over gedaan.\n\n";
 		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
-		statsFile << player1 << " heeft gewonnen.\n"
+		statsFile << player1 << " heeft gewonnen!\n"
 			  << "De tegenstander was: " << player2 << ".\n"
-			  << player1 << " heeft er " << nTurn1 << " beurten over gedaan.\n\n";
+			  << player1 << " heeft er " << nTurn1 << " beurten over gedaan.\n"
+			  << player2 << " had nog " << P2Counter << " te raden.\n\n";
 		statsFile.close();
 	    }
 	    else if(P2Counter == 0) {
 		cout << player2 << " heeft gewonnen!\n";
 		cout << "Je hebt er " << nTurn2 << " beurten over gedaan.\n\n";
 		statsFile.open("statsFile.txt", ios::out | ios::ate | ios::app);
-		statsFile << player2 << " heeft gewonnen.\n"
+		statsFile << player2 << " heeft gewonnen!\n"
 			  << "De tegenstander was: " << player1 << ".\n"
-			  << player2 << " heeft er " << nTurn2 << " beurten over gedaan.\n\n";
+			  << player2 << " heeft er " << nTurn2 << " beurten over gedaan.\n"
+			  << player1 << " had nog " << P1Counter << " te raden.\n\n";		
 		statsFile.close();
 	    }
 	    cin.ignore();
@@ -312,11 +314,11 @@ int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string 
 
     while(VALIDINPUT) {
 	if(turn % 2 == 0) {
-	    cout << playerName << ", geef een locatie (bijvoorbeeld 'c 6'): ";
+	    cout << playerName << ", geef een locatie (bijvoorbeeld 'c6'): ";
 	    cin >> cX >> y;
 	}
 	else if(turn % 2 != 0) {
-	    cout << playerName << ", geef een locatie (bijvoorbeeld 'c 6'): ";
+	    cout << playerName << ", geef een locatie (bijvoorbeeld 'c6'): ";
 	    cin >> cX >> y;
 	}
 

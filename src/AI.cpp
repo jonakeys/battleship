@@ -31,6 +31,7 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
     int nContent, nContentNext0=1, nContentNext1=1, nContentNext2=1, nContentNext3=1, nGetContent;
     int nCheckShip, nCheckShip2;
     int nI = 0, nJ = 0;
+    int nX, nY;
       
     // Creates a random number generator
     srand(time(NULL));
@@ -152,6 +153,7 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 						else OtherPlayerHitField.SetLocation(i+1,j,6);
 						NDIROK=false; TRY=false; nGuess = 1;
 					    }
+					    nX=xAdj; nY=yAdj;
 					}
 				    }
 				}
@@ -159,7 +161,7 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 			}
 		    }
 		}
-		
+
 		// Continue when a ship is found at the location, but no adjacent parts are found
 		if(xAdj>=0 && yAdj>=0) {
 		    int count[4] = {0, 0, 0, 0};
@@ -183,12 +185,13 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 					    // It it is a 7, display it as a miss on the hitfield
 					    else { OtherPlayerHitField.SetLocation(xAdj,yAdj-1,6); }
 					    TRY = false; NDIROK = false; ADJACENT = false; // Exit al loops
-					    if((nCheckShip>=1) && (nCheckShip<5)) { nGuess = 1; } // Return 1 if it's a hit
+					    if((nCheckShip2>=1) && (nCheckShip2<5)) { nGuess = 1; nX=xAdj;nY=yAdj-1; } // Return 1 if it's a hit
 					}
 				    }
 				    count[0] = 1; // Mark the upper direction as tried
 				    break;
 				case 1: // As above
+				    x=xAdj; y=yAdj+1;
 				    if((yAdj+1)<10) nCheckShip = OtherPlayerHitField.GetContent(xAdj,yAdj+1);
 				    else nCheckShip = 1;
 				    nCheckShip2 = OtherPlayerField.GetContent(xAdj,yAdj+1);
@@ -197,12 +200,13 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 					    if(nCheckShip2!=7) OtherPlayerHitField.SetLocation(xAdj,yAdj+1,OtherPlayerField.GetContent(xAdj,yAdj+1));
 					    else { OtherPlayerHitField.SetLocation(xAdj,yAdj+1,6); }
 					    TRY = false; NDIROK = false; ADJACENT = false;
-					    if((nCheckShip>=1) && (nCheckShip<5)) { nGuess = 1; }
+					    if((nCheckShip2>=1) && (nCheckShip2<5)) { nGuess = 1; nX = xAdj; nY = yAdj+1; }
 					}
 				    }
 				    count[1] = 1;
 				    break;
 				case 2: // ...
+				    x=xAdj-1; y=yAdj;
 				    if((xAdj-1)>=0) nCheckShip = OtherPlayerHitField.GetContent(xAdj-1,yAdj);
 				    else nCheckShip = 1;
 				    nCheckShip2 = OtherPlayerField.GetContent(xAdj-1,yAdj);
@@ -211,12 +215,13 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 					    if(nCheckShip2!=7) OtherPlayerHitField.SetLocation(xAdj-1,yAdj,OtherPlayerField.GetContent(xAdj-1,yAdj));
 					    else { OtherPlayerHitField.SetLocation(xAdj-1,yAdj,6); }
 					    TRY = false; NDIROK = false; ADJACENT = false;
-					    if((nCheckShip>=1) && (nCheckShip<5)) { nGuess = 1; }
+					    if((nCheckShip2>=1) && (nCheckShip2<5)) { nGuess = 1; nX=xAdj-1; nY=yAdj; }
 					}
 				    }
 				    count[2] = 1;
 				    break;
 				case 3: // ...
+				    x=xAdj+1; y=yAdj;
 				    if((xAdj+1)<10) nCheckShip = OtherPlayerHitField.GetContent(xAdj+1,yAdj);
 				    else nCheckShip = 1;
 				    nCheckShip2 = OtherPlayerField.GetContent(xAdj+1,yAdj);
@@ -225,7 +230,7 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 					    if(nCheckShip2!=7) OtherPlayerHitField.SetLocation(xAdj+1,yAdj,OtherPlayerField.GetContent(xAdj+1,yAdj));
 					    else { OtherPlayerHitField.SetLocation(xAdj+1,yAdj,6); }
 					    TRY = false; NDIROK = false; ADJACENT = false;
-					    if((nCheckShip>=1) && (nCheckShip<5)) { nGuess = 1; }
+					    if((nCheckShip2>=1) && (nCheckShip2<5)) { nGuess = 1; nX=xAdj+1; nY=yAdj; }
 					}
 				    }
 				    count[3] = 1;
@@ -245,8 +250,6 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 	} 
 	if(nI==10) {
 	    ADJACENT = false; // When all iterations are run, stop thinking smart and move on to the random location guessing
-	    x=xAdj;
-	    y=yAdj;
 	}
     }
     
@@ -272,10 +275,12 @@ int AIGuess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, strin
 	    OtherPlayerHitField.SetLocation(x, y, 6); // 6 is miss
 	    TRY = false;
 	}
+	nX = x;
+	nY = y;
     }
 
-    OtherPlayerRemainField.SetLocation(x,y,0);
-    
+    OtherPlayerRemainField.SetLocation(nX,nY,0);
+        
     return nGuess;
 }
 
