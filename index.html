@@ -1,0 +1,112 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>Battleship</title>
+  <meta name="description" content="Battleship game">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Battleship</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">Battleship game</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/jonakeys/battleship/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/jonakeys/battleship/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/jonakeys/battleship" class="code">View Battleship on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h3>
+<a name="battleship-game-zeeslag" class="anchor" href="#battleship-game-zeeslag"><span class="octicon octicon-link"></span></a>Battleship game (Zeeslag)</h3>
+
+<pre><code>Created by Jonathan van der Steege (March 2014)
+jonakeys@hotmail.com
+Written in C++
+</code></pre>
+
+<h3>
+<a name="goal" class="anchor" href="#goal"><span class="octicon octicon-link"></span></a>Goal</h3>
+
+<p>Two players battle to rule the open sea. The goal is to destroy all of the enemy's ships. The first player who does so, wins the game. A ship is destroyed when all it's coordinates are revealed.</p>
+
+<h3>
+<a name="start" class="anchor" href="#start"><span class="octicon octicon-link"></span></a>Start</h3>
+
+<p>The game starts with each player placing their ships on the playing field. Ships can only be placed horizontally or vertically and aren't allowed to be adjacent to each other.</p>
+
+<p>Each player has 10 ships: 1 Battleship (4 4 4 4) 2 Cruisers (3 3 3) (3 3 3) 3 Torpedo Boats (2 2) (2 2) (2 2) 4 Submarines (1) (1) (1) (1)</p>
+
+<h3>
+<a name="battles" class="anchor" href="#battles"><span class="octicon octicon-link"></span></a>Battles</h3>
+
+<p>In turn, each player fires a shot. When it hits, the number of the ship is revealed. When the shots misses, an 'm' is displayed on the field. There are 20 hits left. When the counter reaches 0, you have won.</p>
+
+<h3>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options</h3>
+
+<p>In the main menu there's an option to play versus the computer (AI). The AI finds locations where ships are at and searches around them. It even checks smart if there are already 2 locations aligned and acts accordingly. When the game is won and the program quits, the results are written to a file named 'statsFile.txt' in the same directory as the game is run.</p>
+
+<h3>
+<a name="ending-notes" class="anchor" href="#ending-notes"><span class="octicon octicon-link"></span></a>Ending notes</h3>
+
+<p>Have fun playing the game! I would like to hear from you if you compiled and played the game and what you think of it. Also I would like to improve my programming skills, so feel free to comment about that too!</p>
+
+<p>-- Jonathan</p>
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Having trouble with Battleship? Send an e-mail to <a href="mailto:jonakeys@hotmail.com">jonakeys@hotmail.com</a> and I´ll be glad to help you out!</p>
+
+<h3>
+<a name="screenshots" class="anchor" href="#screenshots"><span class="octicon octicon-link"></span></a>Screenshots</h3>
+
+<p>Main menu:
+<img src="http://www.jonakeys.nl/Screenshots/bs_main.png" alt="Battleship - Main menu">
+Playing boards:
+<img src="http://www.jonakeys.nl/Screenshots/bs_play.png" alt="Battleship - Playing boards">
+Example statsFile.txt:
+<img src="http://www.jonakeys.nl/Screenshots/bs_statsfile.png" alt="Battleship - statsFile.txt"></p>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/jonakeys" class="avatar"><img src="https://avatars2.githubusercontent.com/u/4281902?s=60" width="48" height="48"/></a> <a href="https://github.com/jonakeys">jonakeys</a> maintains <a href="https://github.com/jonakeys/battleship">Battleship</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="http://pages.github.com/">GitHub Pages</a><br/>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/jonakeys/battleship/tarball/master" class="tar">tar</a><a href="https://github.com/jonakeys/battleship/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
