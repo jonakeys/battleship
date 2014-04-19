@@ -83,7 +83,7 @@ void CreateShip(Ship& PlayerShip, int size, Field& PutField, Field& RemainField,
     
     while(!DONE) {
 	while(VALIDINPUT) {
-	    cout << "\nKies startcoordinaat (bijvoorbeeld: 'c 6'): ";
+	    cout << "\nKies startcoordinaat (bijvoorbeeld: 'c6'): ";
 	    cin >> cX  >> y;
 
 	    if(cX != 'a' && cX != 'b' && cX != 'c' && cX != 'd' && cX != 'e' &&

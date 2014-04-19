@@ -169,3 +169,30 @@ void DrawRemainingShips(Field& RemainFieldP1, Field& RemainFieldP2, string& P1Na
     for(int i = 0; i<nS; ++i) { cout << "(1) "; }
     cout << endl << endl;
 }
+
+// Draws a line with the remaining ships to place on the field
+void DrawShipsRemaining(vector <Ship>& vShips)
+{
+    cout << "\tDe volgende schepen volgen:\n\t";
+    if(vShips.at(0).GetSize()==0)
+	cout << "Slagschip: (4 4 4 4) ";
+    if(vShips.at(2).GetSize()==0)
+	cout << "Kruisers: (3 3 3) ";
+    if(vShips.at(1).GetSize()==0)
+	cout << "(3 3 3) ";
+    if(vShips.at(5).GetSize()==0)
+	cout << "Torpedoboten: (2 2) ";
+    if(vShips.at(3).GetSize()==0)
+	cout << "(2 2) ";
+    if(vShips.at(4).GetSize()==0)
+	cout << "(2 2) ";
+    if(vShips.at(9).GetSize()==0)
+	cout << "Onderzeeers: (1) ";
+    if(vShips.at(6).GetSize()==0)
+	cout << "(1) ";
+    if(vShips.at(7).GetSize()==0)
+	cout << "(1) ";
+    if(vShips.at(8).GetSize()==0)
+	cout << "(1)";
+    cout << "\n\n";
+}

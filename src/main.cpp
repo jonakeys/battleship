@@ -11,7 +11,6 @@
 using namespace std;
 
 void PlaceShips(Field& PutField, Field& Put2Field, Field& RemainField, vector <Ship>& vShips, int player, string playerName);
-void DrawShipsRemaining(vector <Ship>& vShips);
 int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string playerName, Field& OtherPlayerRemainField);
 
 int main()
@@ -77,7 +76,7 @@ int main()
 		player2 = "Computer";
 	    }
 
-	    // Create the fields for both players and their accompanying hitfields
+	    // Create the fields for both players, their hitfields and remainfields
 	    P1Field.Create();
 	    P2Field.Create();
 	    P1HitField.Create();
@@ -274,33 +273,6 @@ void PlaceShips(Field& PutField, Field& Put2Field, Field& RemainField, vector <S
 	CreateShip(vShips.at(9), 1, Put2Field, RemainField, nCount);
 	DrawScreen(PutField, Put2Field);
     }
-}
-
-// Draws a line with the remaining ships to place on the field
-void DrawShipsRemaining(vector <Ship>& vShips)
-{
-    cout << "\tDe volgende schepen volgen:\n\t";
-    if(vShips.at(0).GetSize()==0)
-	cout << "Slagschip: (4 4 4 4) ";
-    if(vShips.at(2).GetSize()==0)
-	cout << "Kruisers: (3 3 3) ";
-    if(vShips.at(1).GetSize()==0)
-	cout << "(3 3 3) ";
-    if(vShips.at(5).GetSize()==0)
-	cout << "Torpedoboten: (2 2) ";
-    if(vShips.at(3).GetSize()==0)
-	cout << "(2 2) ";
-    if(vShips.at(4).GetSize()==0)
-	cout << "(2 2) ";
-    if(vShips.at(9).GetSize()==0)
-	cout << "Onderzeeers: (1) ";
-    if(vShips.at(6).GetSize()==0)
-	cout << "(1) ";
-    if(vShips.at(7).GetSize()==0)
-	cout << "(1) ";
-    if(vShips.at(8).GetSize()==0)
-	cout << "(1)";
-    cout << "\n\n";
 }
 
 // Guess a location
