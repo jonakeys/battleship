@@ -1,8 +1,8 @@
 #include <stdlib.h>
-#include "../headers/Draw.h"
-#include "../headers/Field.h"
 #include <iostream>
 #include <iomanip>
+#include "../headers/Draw.h"
+#include "../headers/Field.h"
 using namespace std;
 
 // Draw the screen
