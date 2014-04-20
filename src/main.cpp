@@ -10,7 +10,8 @@
 #include "../headers/AI.h"
 using namespace std;
 
-void PlaceShips(Field& PutField, Field& Put2Field, Field& RemainField, vector <Ship>& vShips, int player, string playerName);
+void PlaceShips(Field& PutField, Field& Put2Field, Field& RemainField, vector <Ship>& vShips, int player, string playerName,
+		string& player1, string& player2);
 int Guess(int turn, Field& OtherPlayerField, Field& OtherPlayerHitField, string playerName, Field& OtherPlayerRemainField);
 
 int main()
@@ -86,16 +87,16 @@ int main()
 
 	    // Print the fields to the screen
 	    // Players setup their ships on the field
-	    DrawScreen(P1Field, P2Field);
-	    PlaceShips(P1Field, P2Field, P1RemainField, vP1Ships, 1, player1);
-	    DrawScreen(P1HitField, P2Field);
+	    DrawScreen(P1Field, P2Field, player1, player2);
+	    PlaceShips(P1Field, P2Field, P1RemainField, vP1Ships, 1, player1, player1, player2);
+	    DrawScreen(P1HitField, P2Field, player1, player2);
 	    if(nChoice == 1) {
-		PlaceShips(P1HitField, P2Field, P2RemainField, vP2Ships, 2, player2);
+		PlaceShips(P1HitField, P2Field, P2RemainField, vP2Ships, 2, player2, player1, player2);
 	    }
 	    else if(nChoice == 2) {
 		AIPlaceShips(P2Field, vP2Ships, P2RemainField);
 	    }
-	    DrawScreen(P2HitField, P1HitField);
+	    DrawScreen(P2HitField, P1HitField, player1, player2);
 	    cout << endl << endl;
 
 	    while(PLAY)
@@ -104,7 +105,7 @@ int main()
 		if(nTurn % 2 == 0) {
 		    nGuess = Guess(nTurn, P2Field, P2HitField, player1, P2RemainField); // Guess returns 1 if hit
 		    P1Counter -= nGuess;
-		    DrawScreen(P2HitField, P1HitField);
+		    DrawScreen(P2HitField, P1HitField, player1, player2);
 		    DrawRemainingShips(P2RemainField, P1RemainField, player1, player2);
 		    if(nGuess==1)
 			cout << player1 << " schoot raak :-)\n\n";
@@ -121,7 +122,7 @@ int main()
 			nGuess = AIGuess(nTurn, P1Field, P1HitField, player2, P1RemainField);
 		    }
 		    P2Counter -= nGuess;
-		    DrawScreen(P2HitField, P1HitField);
+		    DrawScreen(P2HitField, P1HitField, player1, player2);
 		    DrawRemainingShips(P2RemainField, P1RemainField, player1, player2);
 		    if(nGuess==1)
 			cout << player2 << " schoot raak :-)\n\n";
@@ -173,7 +174,8 @@ int main()
 }
 
 // Player puts their ships on the field
-void PlaceShips(Field& PutField, Field& Put2Field, Field& RemainField, vector <Ship>& vShips, int player, string playerName)
+void PlaceShips(Field& PutField, Field& Put2Field, Field& RemainField, vector <Ship>& vShips, int player, 
+		string playerName, string& player1, string& player2)
 {
     int nCount=1;
 
@@ -181,97 +183,97 @@ void PlaceShips(Field& PutField, Field& Put2Field, Field& RemainField, vector <S
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats slagschip (4 4 4 4)\n";
 	CreateShip(vShips.at(0), 4, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats kruiser (3 3 3) (1/2)\n";
 	++nCount;
 	CreateShip(vShips.at(1), 3, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats kruiser (3 3 3) (2/2)\n";
 	++nCount;
 	CreateShip(vShips.at(2), 3, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (1/3)\n";
 	++nCount;
 	CreateShip(vShips.at(3), 2, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (2/3)\n";
 	++nCount;
 	CreateShip(vShips.at(4), 2, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (3/3)\n";
 	++nCount;
 	CreateShip(vShips.at(5), 2, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (1/4)\n";
 	++nCount;
 	CreateShip(vShips.at(6), 1, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (2/4)\n";
 	CreateShip(vShips.at(7), 1, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (3/4)\n";
 	CreateShip(vShips.at(8), 1, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (4/4)\n";
 	CreateShip(vShips.at(9), 1, PutField, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
     }
     else if(player == 2) {
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats slagschip (4 4 4 4)\n";
 	CreateShip(vShips.at(0), 4, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats kruiser (3 3 3) (1/2)\n";
 	++nCount;
 	CreateShip(vShips.at(1), 3, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats kruiser (3 3 3) (2/2)\n";
 	++nCount;
 	CreateShip(vShips.at(2), 3, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (1/3)\n";
 	++nCount;
 	CreateShip(vShips.at(3), 2, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (2/3)\n";
 	++nCount;
 	CreateShip(vShips.at(4), 2, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats torpedoboot (2 2) (3/3)\n";
 	++nCount;
 	CreateShip(vShips.at(5), 2, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (1/4)\n";
 	++nCount;
 	CreateShip(vShips.at(6), 1, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (2/4)\n";
 	CreateShip(vShips.at(7), 1, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (3/4)\n";
 	CreateShip(vShips.at(8), 1, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
 	DrawShipsRemaining(vShips);
 	cout << playerName << ", plaats onderzeeer (1) (4/4)\n";
 	CreateShip(vShips.at(9), 1, Put2Field, RemainField, nCount);
-	DrawScreen(PutField, Put2Field);
+	DrawScreen(PutField, Put2Field, player1, player2);
     }
 }
 

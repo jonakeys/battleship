@@ -1,16 +1,17 @@
 #include <stdlib.h>
 #include "../headers/Draw.h"
 #include "../headers/Field.h"
-
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 // Draw the screen
-void DrawScreen(Field& Player1Field, Field& Player2Field)
+void DrawScreen(Field& Player1Field, Field& Player2Field, string& sPlayer1, string& sPlayer2)
 {
     system("clear");
     DrawTitle();
-    cout << "\t Speler 1\t\t\t\t\t       Speler 2\n"
+    cout << "\t " << sPlayer1
+	 << setw(90) << sPlayer2 << endl
 	 << "\t ________________________________________\t       ________________________________________\n"
 	 << "\t|\t\t\t\t         |\t      |\t\t\t\t\t       |" << endl
 	 << "\t|      a  b  c  d  e  f  g  h  i  j      |\t      |      a  b  c  d  e  f  g  h  i  j      |" << endl 
